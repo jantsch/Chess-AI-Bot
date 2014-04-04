@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include "Client.h"
+#include "BitBoard.h"
 
 using std::cout;
 using std::endl;
@@ -81,6 +82,10 @@ void Cliente::rotinaPrincipal()
             cout << receivedData << endl; // receiver data Contém string
 
             // Manipula receivedData
+             BitBoard bitboard;
+             bitboard.ConverteFormatoServBit((string)receivedData);
+
+
             // Faz Algoritmo
             // Manda a jogada
 

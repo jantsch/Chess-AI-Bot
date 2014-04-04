@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1396303227 source:c:\users\rodrigo\ia\mybot\client.cpp
+1396577375 source:c:\users\rodrigo\ia\mybot\client.cpp
 	<winsock2.h>
 	<windows.h>
 	<iostream>
 	<stdio.h>
 	"Client.h"
+	"BitBoard.h"
 
-1396303262 c:\users\rodrigo\ia\mybot\client.h
+1396573282 c:\users\rodrigo\ia\mybot\client.h
 	<iostream>
 	<winsock2.h>
 	<windows.h>
@@ -18,8 +19,24 @@
 	<stdio.h>
 	"Client.h"
 
-1396120778 source:c:\users\rodrigo\ia\mybot\main.cpp
+1396576936 source:c:\users\rodrigo\ia\mybot\main.cpp
 	<iostream>
 	<winsock2.h>
 	"Client.h"
+
+1396577545 source:c:\users\rodrigo\ia\mybot\bitboard.cpp
+	"BitBoard.h"
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1396577269 c:\users\rodrigo\ia\mybot\bitboard.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1396575509 source:c:\users\rodrigo\ia\mybot\minimax.cpp
+	"Minimax.h"
+
+1396575518 c:\users\rodrigo\ia\mybot\minimax.h
 

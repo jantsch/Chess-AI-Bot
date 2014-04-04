@@ -35,8 +35,12 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="BitBoard.cpp" />
+		<Unit filename="BitBoard.h" />
 		<Unit filename="Client.cpp" />
 		<Unit filename="Client.h" />
+		<Unit filename="Minimax.cpp" />
+		<Unit filename="Minimax.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
