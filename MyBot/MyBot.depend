@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1396303227 source:c:\users\rodrigo\ia\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+
+1396303262 c:\users\rodrigo\ia\mybot\client.h
+	<iostream>
+	<winsock2.h>
+	<windows.h>
+
+1396038857 c:\users\rodrigo\ia\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+
+1396120778 source:c:\users\rodrigo\ia\mybot\main.cpp
+	<iostream>
+	<winsock2.h>
+	"Client.h"
+
