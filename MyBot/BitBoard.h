@@ -22,15 +22,16 @@ class BitBoard
         BitBoard();
         virtual ~BitBoard();
         void ConverteFormatoServBit(string msgServ);
-        void GeraPossiveisJogadas();
+        void GeraPossiveisJogadas(); //ok
 
     private:
-        void setWho_moves(string msgServ);
-        void setBad_move(string msgServ);
-        void setWhite_infractions(string msgServ);
-        void setBlack_infractions(string msgServ);
-        void setWinner(string msgServ); // 1 ,0 ou -1
-        void setFiftyMoves(string msgServ);
+        void setDraw(string msgServ); //ok
+        void setWho_moves(string msgServ); //ok
+        void setBad_move(string msgServ); //ok
+        void setWhite_infractions(string msgServ); //ok
+        void setBlack_infractions(string msgServ); // ok
+        void setWinner(string msgServ); // 1 ,0 ou -1 //ok
+        void setFiftyMoves(string msgServ); //ok
 
 };
 

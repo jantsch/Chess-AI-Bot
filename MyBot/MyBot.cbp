@@ -41,6 +41,8 @@
 		<Unit filename="Client.h" />
 		<Unit filename="Minimax.cpp" />
 		<Unit filename="Minimax.h" />
+		<Unit filename="Tabuleiro.cpp" />
+		<Unit filename="Tabuleiro.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
