@@ -27,32 +27,19 @@ Tabuleiro::~Tabuleiro()
     //dtor
 }
 
-uint64_t Tabuleiro::Set (uint64_t bitboard, Squares square)
-{
-      return  bitboard | SetMasksField(square);
-}
 
 uint64_t Tabuleiro::Set (uint64_t bitboard, int numSquare)
 {
       return  bitboard | SetMasksField(numSquare);
 }
 
-uint64_t Tabuleiro::Clear (uint64_t bitboard, Squares square)
-{
-      return bitboard & ClearMasksField(square);
-}
+
 uint64_t Tabuleiro::Clear (uint64_t bitboard, int numSquare)
 {
       return bitboard & ClearMasksField(numSquare);
 }
 
-uint64_t Tabuleiro::SetMasksField(Squares square)
-{
-    uint64_t mask = 0;
-    mask = 1 << (int)square;
-    return mask;
 
-}
 
 uint64_t Tabuleiro::SetMasksField(int numSquare)
 {
@@ -62,11 +49,7 @@ uint64_t Tabuleiro::SetMasksField(int numSquare)
 
 }
 
-uint64_t Tabuleiro::ClearMasksField(Squares square)
-{
-    uint64_t mask = ~(1 << (int)square);
-    return mask;
-}
+
 
 
 uint64_t Tabuleiro::ClearMasksField(int numSquare)
@@ -75,17 +58,7 @@ uint64_t Tabuleiro::ClearMasksField(int numSquare)
     return mask;
 }
 
-bool Tabuleiro::Is_set(uint64_t bitboard,Squares square)
-{
-    int x = bitboard >> (int)square;
-    int  mask = (1 << 1) - 1;
-    int y = x & mask;
 
-    if(y==1)
-        return true;
-    else
-        return false;
-}
 
 bool Tabuleiro::Is_set(uint64_t bitboard,int numSquare)
 {
@@ -100,32 +73,32 @@ bool Tabuleiro::Is_set(uint64_t bitboard,int numSquare)
 }
 
 
-uint64_t Tabuleiro::GetPawnMovMaskCima(Squares square)
+uint64_t Tabuleiro::GetPawnMovMaskCima(int  square)
 {
     uint64_t maskMovCima=0;
-    maskMovCima = Set(maskMovCima,(int)square +8);
-    maskMovCima = Set(maskMovCima,(int)square +16); // movimento pra cima
+    maskMovCima = Set(maskMovCima,square +8);
+    maskMovCima = Set(maskMovCima,square +16); // movimento pra cima
 
 
     return maskMovCima;
 }
 
-uint64_t Tabuleiro::GetPawnMovMaskCome(Squares square)
+uint64_t Tabuleiro::GetPawnMovMaskCome(int square)
 {
     uint64_t maskMovCome=0;
-     if(((int)square +9) /8 == ((int)square /8)+1)   // confere movimenos pros lados.
-      maskMovCome = Set(maskMovCome,(int)square +9);
-     if(((int)square +7) /8 == ((int)square /8)+1)
-      maskMovCome = Set(maskMovCome,(int)square +7);
+     if((square +9) /8 == (square /8)+1)   // confere movimenos pros lados.
+      maskMovCome = Set(maskMovCome,square +9);
+     if((square +7) /8 == (square /8)+1)
+      maskMovCome = Set(maskMovCome,square +7);
 
       return maskMovCome;
 }
 
-uint64_t Tabuleiro::GeraMovValidoPeaoCima(uint64_t maskMovCima,Squares square)
+uint64_t Tabuleiro::GeraMovValidoPeaoCima(uint64_t maskMovCima,int square)
 {
     uint64_t maskMovPossiveisCima=0;
 
-    if(Is_set(this->emptySpace,((int)square+8))==true)
+    if(Is_set(this->emptySpace,(square+8))==true)
     {
         maskMovPossiveisCima = maskMovCima & this->emptySpace;
         return maskMovPossiveisCima;
@@ -140,7 +113,7 @@ uint64_t Tabuleiro::GeraMovValidoPeaoCome(uint64_t maskMovCome)
     return maskMovPossiveisCome;
 }
 
-uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,Squares square)
+uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,int square)
 {
     //Lista encadeada com todas bitboards possíveis de peão; Ver n tree
 
@@ -155,14 +128,14 @@ uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,ui
                this->ptAux->BlackRooks = this->BlackRooks;
                this->ptAux->WhitePawns = this->WhitePawns;
                this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
-               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,(int)square);
+               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,square);
                this->ptAux->WhiteRooks =  this->WhiteRooks;
                this->ptAux->WhiteBishops = this->WhiteBishops;
                this->ptAux->WhitePieces = this->WhitePieces;
                this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
-               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,(int)square);
+               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,square);
                this->ptAux->emptySpace  = this->emptySpace;
-               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,(int)square);
+               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,square);
                this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
 
                this->ptAux = this->ptAux->irmao;
@@ -178,14 +151,14 @@ uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,ui
                this->ptAux->BlackRooks = this->BlackRooks;
                this->ptAux->WhitePawns = this->WhitePawns;
                this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
-               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,(int)square);
+               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,square);
                this->ptAux->WhiteRooks =  this->WhiteRooks;
                this->ptAux->WhiteBishops = this->WhiteBishops;
                this->ptAux->WhitePieces = this->WhitePieces;
                this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
-               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,(int)square);
+               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,square);
                this->ptAux->emptySpace  = this->emptySpace;
-               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,(int)square);
+               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,square);
                this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
                VeQualPecaFoiComida(i); // ver qual peça está comento para tirar da bitboard black
             }
