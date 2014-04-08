@@ -1,3 +1,4 @@
+#include "BitBoard.h"
 #include "Minimax.h"
 
 Minimax::Minimax()
@@ -8,4 +9,11 @@ Minimax::Minimax()
 Minimax::~Minimax()
 {
     //dtor
+}
+
+COORD Minimax::exe(BitBoard bitboard)
+{
+
+    COORD x;
+    return x;
 }

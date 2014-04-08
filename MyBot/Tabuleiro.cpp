@@ -1,24 +1,27 @@
 
-#include "Tabuleiro.h"
+
 #include <iostream>
 #include <cstdlib>
+#include "Tabuleiro.h"
+
 Tabuleiro::Tabuleiro()
 {
     //ctor
-    this->BlackBishops = 2594073385365405696;
-    this->BlackPawns = 71776119061217280;
-    this->BlackPieces = -6485464938390224896;
-    this->BlackRooks = -9151314442816847872;
-    this->WhiteBishops = 36;
-    this->WhitePawns = 65280;
-    this->WhitePieces = 65535; // número em decimal correspondente as pecas brancas
-    this->WhiteRooks = 129;
-    this->allPieces = -6485464938390159451;
+    this->BlackBishops = 0;
+    this->BlackPawns = 0;
+    this->BlackPieces = 0;
+    this->BlackRooks = 0;
+    this->WhiteBishops = 0;
+    this->WhitePawns = 0;
+    this->WhitePieces = 0; // número em decimal correspondente as pecas brancas
+    this->WhiteRooks = 0;
+    this->allPieces = 0;
     this->emptySpace = 0;
+    this->valAvalia = 0;
 
     this->filhos = NULL;
     this->irmao = NULL;
-    this->ptAux = this->filhos;
+    this->ptAux = this->filhos; // ERRADO REVER!
 
 }
 
@@ -113,7 +116,7 @@ uint64_t Tabuleiro::GeraMovValidoPeaoCome(uint64_t maskMovCome)
     return maskMovPossiveisCome;
 }
 
-uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,int square)
+void Tabuleiro::GeraListaBitboardsPossiveisPeao(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,int square)
 {
     //Lista encadeada com todas bitboards possíveis de peão; Ver n tree
 
@@ -161,6 +164,7 @@ uint64_t Tabuleiro::GeraListaBitboardsPossiveis(uint64_t maskMovPossiveisCome,ui
                this->ptAux->emptySpace = Set(this->ptAux->emptySpace,square);
                this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
                VeQualPecaFoiComida(i); // ver qual peça está comento para tirar da bitboard black
+               this->ptAux = this->ptAux->irmao;
             }
 
 
@@ -171,14 +175,14 @@ void Tabuleiro::VeQualPecaFoiComida(int i)
 {
     if(Is_set(this->BlackPawns,i))
     {
-        this->filhos->BlackPawns = Clear(this->filhos->BlackPawns,i);
+        this->ptAux->BlackPawns = Clear(this->ptAux->BlackPawns,i);
     }
     if(Is_set(this->BlackBishops,i))
     {
-        this->filhos->BlackBishops = Clear(this->filhos->BlackBishops,i);
+        this->ptAux->BlackBishops = Clear(this->ptAux->BlackBishops,i);
     }
     if(Is_set(this->BlackRooks,i))
     {
-          this->filhos->BlackRooks = Clear(this->filhos->BlackRooks,i);
+          this->ptAux->BlackRooks = Clear(this->ptAux->BlackRooks,i);
     }
 }

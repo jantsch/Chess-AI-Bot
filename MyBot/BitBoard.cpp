@@ -1,13 +1,17 @@
-#include "BitBoard.h"
 
 #include <windows.h>
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "BitBoard.h"
+
+
+
 BitBoard::BitBoard()
 {
     //ctor
+
 }
 
 BitBoard::~BitBoard()
@@ -24,6 +28,8 @@ void BitBoard::ConverteFormatoServBit(string msgServ)
     setBlack_infractions(msgServ);
     setWinner(msgServ); // 1 ,0 ou -1
     setFiftyMoves(msgServ);
+    setTabuleiro(msgServ);
+
 
 }
 /* FOrmato da String que chega
@@ -31,6 +37,56 @@ void BitBoard::ConverteFormatoServBit(string msgServ)
 P............PPP.PPPPR.B..B.R", "black_infractions": 0, "50moves":
 r": 0, "enpassant": null, "who_moves": -1, "white_infractions": 0}
 */
+void BitBoard::setTabuleiro(string msgServ)
+{
+     int location = msgServ.find("board");
+     string board = msgServ.substr(location+9,64);
+
+    for(int i=0;i<64;i++)
+    {
+        switch(board[i])
+        {
+
+            case 'r':
+                {
+                    this->tabuleiro->BlackRooks = Tabuleiro::Set(this->tabuleiro->BlackRooks,63-i);
+                    break;
+                }
+            case 'b':
+                {
+                    this->tabuleiro->BlackBishops = Tabuleiro::Set(this->tabuleiro->BlackBishops,63-i);
+                    break;
+                }
+            case 'p':
+                {
+                    this->tabuleiro->BlackPawns = Tabuleiro::Set(this->tabuleiro->BlackPawns,63-i);
+                    break;
+                }
+            case 'R':
+                {
+                    this->tabuleiro->WhiteRooks = Tabuleiro::Set(this->tabuleiro->WhiteRooks,63-i);
+                    break;
+                }
+            case 'B':
+                {
+                    this->tabuleiro->WhiteBishops = Tabuleiro::Set(this->tabuleiro->WhiteBishops,63-i);
+                    break;
+                }
+            case 'P':
+                {
+                    this->tabuleiro->WhitePawns = Tabuleiro::Set(this->tabuleiro->WhitePawns,63-i);
+                    break;
+                }
+             case '.':
+                {
+                    this->tabuleiro->emptySpace = Tabuleiro::Set(this->tabuleiro->emptySpace,63-i);
+                    break;
+                }
+
+        }
+    }
+
+}
 void BitBoard::setDraw(string msgServ)
 {
     int location = msgServ.find("draw");

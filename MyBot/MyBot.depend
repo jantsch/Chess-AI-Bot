@@ -1,13 +1,14 @@
 # depslib dependency file v1.0
-1396577375 source:c:\users\rodrigo\ia\mybot\client.cpp
+1396987312 source:c:\users\rodrigo\ia\mybot\client.cpp
 	<winsock2.h>
 	<windows.h>
 	<iostream>
 	<stdio.h>
 	"Client.h"
 	"BitBoard.h"
+	"Minimax.h"
 
-1396573282 c:\users\rodrigo\ia\mybot\client.h
+1396986241 c:\users\rodrigo\ia\mybot\client.h
 	<iostream>
 	<winsock2.h>
 	<windows.h>
@@ -24,19 +25,34 @@
 	<winsock2.h>
 	"Client.h"
 
-1396577545 source:c:\users\rodrigo\ia\mybot\bitboard.cpp
+1396987085 source:c:\users\rodrigo\ia\mybot\bitboard.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	"Tabuleiro.h"
 	"BitBoard.h"
+
+1396987362 c:\users\rodrigo\ia\mybot\bitboard.h
 	<windows.h>
 	<iostream>
 	<stdio.h>
 
-1396643374 c:\users\rodrigo\ia\mybot\bitboard.h
-	<windows.h>
-	<iostream>
-	<stdio.h>
-
-1396575509 source:c:\users\rodrigo\ia\mybot\minimax.cpp
+1396985535 source:c:\users\rodrigo\ia\mybot\minimax.cpp
+	"BitBoard.h"
 	"Minimax.h"
 
-1396575518 c:\users\rodrigo\ia\mybot\minimax.h
+1396989182 c:\users\rodrigo\ia\mybot\minimax.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1396986452 c:\users\rodrigo\ia\mybot\tabuleiro.h
+	<iostream>
+
+1396986068 source:c:\users\rodrigo\ia\mybot\tabuleiro.cpp
+	<iostream>
+	<cstdlib>
+	"Tabuleiro.h"
 

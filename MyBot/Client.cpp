@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include "Client.h"
 #include "BitBoard.h"
+#include "Minimax.h"
+
 
 using std::cout;
 using std::endl;
@@ -75,21 +77,23 @@ void Cliente::rotinaPrincipal()
    cout << "Nome Enviado "<< endl;
    cout << "Inicie o Jogo... "<< endl;
 
+     BitBoard bitboard;
+     Minimax algMinimax;
+
       while(1)
     {
         if(recv(sock, receivedData,5000 , 0) != -1)
         {
             cout << receivedData << endl; // receiver data Contém string
 
-            // Manipula receivedData
-             BitBoard bitboard;
+            // Passa tudo pra bitboard e gera Tabuleiro.
              bitboard.ConverteFormatoServBit((string)receivedData);
 
+             // Chama Algoritmo Algoritmo
+             COORD jogada = algMinimax.exe(bitboard);
 
-            // Faz Algoritmo
+
             // Manda a jogada
-
-
             enviaMovimento();
 
         }
