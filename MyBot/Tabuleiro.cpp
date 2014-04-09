@@ -3,7 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include "Tabuleiro.h"
-
+using std::cout;
+using std::endl;
 Tabuleiro::Tabuleiro()
 {
     //ctor
@@ -47,7 +48,7 @@ uint64_t Tabuleiro::Clear (uint64_t bitboard, int numSquare)
 uint64_t Tabuleiro::SetMasksField(int numSquare)
 {
     uint64_t mask = 0;
-    mask = 1 << numSquare;
+    mask = 1ULL << numSquare;
     return mask;
 
 }
@@ -57,7 +58,7 @@ uint64_t Tabuleiro::SetMasksField(int numSquare)
 
 uint64_t Tabuleiro::ClearMasksField(int numSquare)
 {
-    uint64_t mask = ~(1 << numSquare);
+    uint64_t mask = ~(1ULL << numSquare);
     return mask;
 }
 
@@ -65,9 +66,9 @@ uint64_t Tabuleiro::ClearMasksField(int numSquare)
 
 bool Tabuleiro::Is_set(uint64_t bitboard,int numSquare)
 {
-    int x = bitboard >> numSquare;
-    int  mask = (1 << 1) - 1;
-    int y = x & mask;
+    uint64_t x = bitboard >> numSquare;
+    uint64_t  mask = (1 << 1) - 1;
+    uint64_t y = x & mask;
 
     if(y==1)
         return true;
@@ -78,17 +79,17 @@ bool Tabuleiro::Is_set(uint64_t bitboard,int numSquare)
 
 uint64_t Tabuleiro::GetPawnMovMaskCima(int  square)
 {
+
     uint64_t maskMovCima=0;
     maskMovCima = Set(maskMovCima,square +8);
-    maskMovCima = Set(maskMovCima,square +16); // movimento pra cima
-
+    maskMovCima = Set(maskMovCima,square +16); // movimento pra cima --> Muito estranho
 
     return maskMovCima;
 }
 
 uint64_t Tabuleiro::GetPawnMovMaskCome(int square)
 {
-    uint64_t maskMovCome=0;
+     uint64_t maskMovCome=0;
      if((square +9) /8 == (square /8)+1)   // confere movimenos pros lados.
       maskMovCome = Set(maskMovCome,square +9);
      if((square +7) /8 == (square /8)+1)
@@ -116,58 +117,86 @@ uint64_t Tabuleiro::GeraMovValidoPeaoCome(uint64_t maskMovCome)
     return maskMovPossiveisCome;
 }
 
-void Tabuleiro::GeraListaBitboardsPossiveisPeao(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,int square)
+void Tabuleiro::GeraListaBitboardsPossiveisPeao()
 {
-    //Lista encadeada com todas bitboards possíveis de peão; Ver n tree
+    //k = bit do peão ligado e i bit da mascara ligado
+    uint64_t maskMovCome = 0;
+    uint64_t maskMovCima = 0;
+    uint64_t maskMovPossiveisCome = 0;
+    uint64_t maskMovPossiveisCima = 0;
 
-   for(int i=0;i<64;i++)
-   {
-          if(Is_set(maskMovPossiveisCima,i)==true)
-           {
-               this->ptAux = (Tabuleiro*) malloc(sizeof(Tabuleiro)); // cria um nodo;
-               this->ptAux->BlackBishops = this->BlackBishops;
-               this->ptAux->BlackPawns = this->BlackPawns;
-               this->ptAux->BlackPieces = this->BlackPieces;
-               this->ptAux->BlackRooks = this->BlackRooks;
-               this->ptAux->WhitePawns = this->WhitePawns;
-               this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
-               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,square);
-               this->ptAux->WhiteRooks =  this->WhiteRooks;
-               this->ptAux->WhiteBishops = this->WhiteBishops;
-               this->ptAux->WhitePieces = this->WhitePieces;
-               this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
-               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,square);
-               this->ptAux->emptySpace  = this->emptySpace;
-               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,square);
-               this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
+    for(int k=0;k<64;k++)
+    {
+        if(Is_set(this->WhitePawns,k))
+        {
+            maskMovCome = GetPawnMovMaskCome(k);
+            maskMovCima = GetPawnMovMaskCima(k);
+            maskMovPossiveisCome = GeraMovValidoPeaoCome(maskMovCome);
+            maskMovPossiveisCima = GeraMovValidoPeaoCima(maskMovCima,k);
 
-               this->ptAux = this->ptAux->irmao;
+
+            bool IsFirst = true;
+               for(int i=0;i<64;i++)
+               {
+                      if(Is_set(maskMovPossiveisCima,i)==true)
+                       {
+                           this->ptAux = (Tabuleiro*) malloc(sizeof(Tabuleiro)); // cria um nodo;
+                           this->ptAux->BlackBishops = this->BlackBishops;
+                           this->ptAux->BlackPawns = this->BlackPawns;
+                           this->ptAux->BlackPieces = this->BlackPieces;
+                           this->ptAux->BlackRooks = this->BlackRooks;
+                           this->ptAux->WhitePawns = this->WhitePawns;
+                           this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
+                           this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,k);
+                           this->ptAux->WhiteRooks =  this->WhiteRooks;
+                           this->ptAux->WhiteBishops = this->WhiteBishops;
+                           this->ptAux->WhitePieces = this->WhitePieces;
+                           this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
+                           this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,k);
+                           this->ptAux->emptySpace  = this->emptySpace;
+                           this->ptAux->emptySpace = Set(this->ptAux->emptySpace,k);
+                           this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
+                            if(IsFirst==true)
+                            {
+                                this->filhos = this->ptAux;
+                                IsFirst=false;
+                            }
+                           this->ptAux = this->ptAux->irmao;
+                        }
+
+                        if(Is_set(maskMovPossiveisCome,i)==true)
+                        {
+
+                           this->ptAux = (Tabuleiro*) malloc(sizeof(Tabuleiro)); // cria um nodo;
+                           this->ptAux->BlackBishops = this->BlackBishops;
+                           this->ptAux->BlackPawns = this->BlackPawns;
+                           this->ptAux->BlackPieces = this->BlackPieces;
+                           this->ptAux->BlackRooks = this->BlackRooks;
+                           this->ptAux->WhitePawns = this->WhitePawns;
+                           this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
+                           this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,k);
+                           this->ptAux->WhiteRooks =  this->WhiteRooks;
+                           this->ptAux->WhiteBishops = this->WhiteBishops;
+                           this->ptAux->WhitePieces = this->WhitePieces;
+                           this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
+                           this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,k);
+                           this->ptAux->emptySpace  = this->emptySpace;
+                           this->ptAux->emptySpace = Set(this->ptAux->emptySpace,k);
+                           this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
+                           VeQualPecaFoiComida(i); // ver qual peça está comento para tirar da bitboard black
+                           if(IsFirst==true)
+                            {
+                                this->filhos = this->ptAux;
+                                IsFirst=false;
+                            }
+                           this->ptAux = this->ptAux->irmao;
+                        }
+
+
+
             }
 
-            if(Is_set(maskMovPossiveisCome,i)==true)
-            {
-
-               this->ptAux = (Tabuleiro*) malloc(sizeof(Tabuleiro)); // cria um nodo;
-               this->ptAux->BlackBishops = this->BlackBishops;
-               this->ptAux->BlackPawns = this->BlackPawns;
-               this->ptAux->BlackPieces = this->BlackPieces;
-               this->ptAux->BlackRooks = this->BlackRooks;
-               this->ptAux->WhitePawns = this->WhitePawns;
-               this->ptAux->WhitePawns = Set(this->ptAux->WhitePawns,i);
-               this->ptAux->WhitePawns = Clear(this->ptAux->WhitePawns,square);
-               this->ptAux->WhiteRooks =  this->WhiteRooks;
-               this->ptAux->WhiteBishops = this->WhiteBishops;
-               this->ptAux->WhitePieces = this->WhitePieces;
-               this->ptAux->WhitePieces = Set(this->ptAux->WhitePieces,i);
-               this->ptAux->WhitePieces = Clear(this->ptAux->WhitePieces,square);
-               this->ptAux->emptySpace  = this->emptySpace;
-               this->ptAux->emptySpace = Set(this->ptAux->emptySpace,square);
-               this->ptAux->emptySpace = Clear(this->ptAux->emptySpace,i);
-               VeQualPecaFoiComida(i); // ver qual peça está comento para tirar da bitboard black
-               this->ptAux = this->ptAux->irmao;
-            }
-
-
+}
 
 }
 }

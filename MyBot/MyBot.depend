@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1396987312 source:c:\users\rodrigo\ia\mybot\client.cpp
+1397078119 source:c:\users\rodrigo\ia\mybot\client.cpp
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -8,7 +8,7 @@
 	"BitBoard.h"
 	"Minimax.h"
 
-1396986241 c:\users\rodrigo\ia\mybot\client.h
+1397065812 c:\users\rodrigo\ia\mybot\client.h
 	<iostream>
 	<winsock2.h>
 	<windows.h>
@@ -20,38 +20,138 @@
 	<stdio.h>
 	"Client.h"
 
-1396576936 source:c:\users\rodrigo\ia\mybot\main.cpp
+1397065812 source:c:\users\rodrigo\ia\mybot\main.cpp
 	<iostream>
 	<winsock2.h>
 	"Client.h"
 
-1396987085 source:c:\users\rodrigo\ia\mybot\bitboard.cpp
+1397082841 source:c:\users\rodrigo\ia\mybot\bitboard.cpp
 	<windows.h>
 	<iostream>
 	<stdio.h>
 	<stdlib.h>
-	"Tabuleiro.h"
 	"BitBoard.h"
 
-1396987362 c:\users\rodrigo\ia\mybot\bitboard.h
+1397066598 c:\users\rodrigo\ia\mybot\bitboard.h
 	<windows.h>
 	<iostream>
 	<stdio.h>
+	"Tabuleiro.h"
 
-1396985535 source:c:\users\rodrigo\ia\mybot\minimax.cpp
+1397080231 source:c:\users\rodrigo\ia\mybot\minimax.cpp
 	"BitBoard.h"
 	"Minimax.h"
 
-1396989182 c:\users\rodrigo\ia\mybot\minimax.h
+1397065812 c:\users\rodrigo\ia\mybot\minimax.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
 	<stdio.h>
 
-1396986452 c:\users\rodrigo\ia\mybot\tabuleiro.h
+1397087248 c:\users\rodrigo\ia\mybot\tabuleiro.h
 	<iostream>
 
-1396986068 source:c:\users\rodrigo\ia\mybot\tabuleiro.cpp
+1397087184 source:c:\users\rodrigo\ia\mybot\tabuleiro.cpp
+	<iostream>
+	<cstdlib>
+	"Tabuleiro.h"
+
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+	"BitBoard.h"
+	"Minimax.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\client.h
+	<iostream>
+	<winsock2.h>
+	<windows.h>
+
+1397061454 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\bitboard.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Tabuleiro.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\minimax.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\minimax.cpp
+	"BitBoard.h"
+	"Minimax.h"
+
+1397059391 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\tabuleiro.cpp
+	<iostream>
+	<cstdlib>
+	"Tabuleiro.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\tabuleiro.h
+	<iostream>
+
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\main.cpp
+	<iostream>
+	<winsock2.h>
+	"Client.h"
+
+1397061216 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\bitboard.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	"BitBoard.h"
+
+1397066320 source:c:\users\rodrigo\desktop\mybot\bitboard.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	"BitBoard.h"
+
+1397066598 c:\users\rodrigo\desktop\mybot\bitboard.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Tabuleiro.h"
+
+1397067574 c:\users\rodrigo\desktop\mybot\tabuleiro.h
+	<iostream>
+
+1397065812 source:c:\users\rodrigo\desktop\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+	"BitBoard.h"
+	"Minimax.h"
+
+1397065812 c:\users\rodrigo\desktop\mybot\client.h
+	<iostream>
+	<winsock2.h>
+	<windows.h>
+
+1397065812 c:\users\rodrigo\desktop\mybot\minimax.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1397065812 source:c:\users\rodrigo\desktop\mybot\main.cpp
+	<iostream>
+	<winsock2.h>
+	"Client.h"
+
+1397067546 source:c:\users\rodrigo\desktop\mybot\minimax.cpp
+	"BitBoard.h"
+	"Minimax.h"
+
+1397068159 source:c:\users\rodrigo\desktop\mybot\tabuleiro.cpp
 	<iostream>
 	<cstdlib>
 	"Tabuleiro.h"

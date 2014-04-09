@@ -6,8 +6,6 @@
 
 #include "BitBoard.h"
 
-
-
 BitBoard::BitBoard()
 {
     //ctor
@@ -37,6 +35,7 @@ void BitBoard::ConverteFormatoServBit(string msgServ)
 P............PPP.PPPPR.B..B.R", "black_infractions": 0, "50moves":
 r": 0, "enpassant": null, "who_moves": -1, "white_infractions": 0}
 */
+//Testado OK!
 void BitBoard::setTabuleiro(string msgServ)
 {
      int location = msgServ.find("board");
@@ -44,47 +43,47 @@ void BitBoard::setTabuleiro(string msgServ)
 
     for(int i=0;i<64;i++)
     {
-        switch(board[i])
-        {
+        if(board[i]=='r')
+          {
+                    this->tabuleiro.BlackRooks = tabuleiro.Set(this->tabuleiro.BlackRooks,63-i);
+                    this->tabuleiro.BlackPieces = tabuleiro.Set(this->tabuleiro.BlackPieces,63-i);
+          }
+        if(board[i]=='b')
+          {
+                    this->tabuleiro.BlackBishops = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
+                    this->tabuleiro.BlackPieces = tabuleiro.Set(this->tabuleiro.BlackPieces,63-i);
 
-            case 'r':
-                {
-                    this->tabuleiro->BlackRooks = Tabuleiro::Set(this->tabuleiro->BlackRooks,63-i);
-                    break;
-                }
-            case 'b':
-                {
-                    this->tabuleiro->BlackBishops = Tabuleiro::Set(this->tabuleiro->BlackBishops,63-i);
-                    break;
-                }
-            case 'p':
-                {
-                    this->tabuleiro->BlackPawns = Tabuleiro::Set(this->tabuleiro->BlackPawns,63-i);
-                    break;
-                }
-            case 'R':
-                {
-                    this->tabuleiro->WhiteRooks = Tabuleiro::Set(this->tabuleiro->WhiteRooks,63-i);
-                    break;
-                }
-            case 'B':
-                {
-                    this->tabuleiro->WhiteBishops = Tabuleiro::Set(this->tabuleiro->WhiteBishops,63-i);
-                    break;
-                }
-            case 'P':
-                {
-                    this->tabuleiro->WhitePawns = Tabuleiro::Set(this->tabuleiro->WhitePawns,63-i);
-                    break;
-                }
-             case '.':
-                {
-                    this->tabuleiro->emptySpace = Tabuleiro::Set(this->tabuleiro->emptySpace,63-i);
-                    break;
-                }
+          }
+        if(board[i]=='p')
+          {
+                    this->tabuleiro.BlackPawns = tabuleiro.Set(this->tabuleiro.BlackPawns,63-i);
+                    this->tabuleiro.BlackPieces = tabuleiro.Set(this->tabuleiro.BlackPieces,63-i);
+
+          }
+        if(board[i]=='R')
+          {
+                    this->tabuleiro.WhiteRooks = tabuleiro.Set(this->tabuleiro.WhiteRooks,63-i);
+                    this->tabuleiro.WhitePieces = tabuleiro.Set(this->tabuleiro.WhitePieces,63-i);
+
+          }
+         if(board[i]=='B')
+           {
+                    this->tabuleiro.WhiteBishops = tabuleiro.Set(this->tabuleiro.WhiteBishops,63-i);
+                    this->tabuleiro.WhitePieces = tabuleiro.Set(this->tabuleiro.WhitePieces,63-i);
+
+           }
+          if(board[i]=='P')
+            {
+                    this->tabuleiro.WhitePawns = tabuleiro.Set(this->tabuleiro.WhitePawns,63-i);
+                    this->tabuleiro.WhitePieces = tabuleiro.Set(this->tabuleiro.WhitePieces,63-i);
+
+            }
+           if(board[i]=='.')
+            {
+                    this->tabuleiro.emptySpace = tabuleiro.Set(this->tabuleiro.emptySpace,63-i);
+            }
 
         }
-    }
 
 }
 void BitBoard::setDraw(string msgServ)

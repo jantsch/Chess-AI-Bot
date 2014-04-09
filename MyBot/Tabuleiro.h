@@ -28,7 +28,8 @@ class Tabuleiro
         uint64_t Set (uint64_t bitboard, int numSquare);
         uint64_t Clear (uint64_t bitboard, int numSquare);
         bool Is_set(uint64_t bitboard,int numSquare);
-        void GeraListaBitboardsPossiveisPeao(uint64_t maskMovPossiveisCome,uint64_t maskMovPossiveisCima,int square);
+        void GeraListaBitboardsPossiveisPeao();
+
 
     protected:
     private:
