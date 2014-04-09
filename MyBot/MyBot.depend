@@ -56,3 +56,53 @@
 	<cstdlib>
 	"Tabuleiro.h"
 
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+	"BitBoard.h"
+	"Minimax.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\client.h
+	<iostream>
+	<winsock2.h>
+	<windows.h>
+
+1397061454 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\bitboard.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Tabuleiro.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\minimax.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\minimax.cpp
+	"BitBoard.h"
+	"Minimax.h"
+
+1397059391 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\tabuleiro.cpp
+	<iostream>
+	<cstdlib>
+	"Tabuleiro.h"
+
+1397013159 c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\tabuleiro.h
+	<iostream>
+
+1397013159 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\main.cpp
+	<iostream>
+	<winsock2.h>
+	"Client.h"
+
+1397061216 source:c:\documents and settings\gabriel\desktop\magyver bot\ia\mybot\bitboard.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	"BitBoard.h"
+

@@ -6,8 +6,6 @@
 
 #include "BitBoard.h"
 
-
-
 BitBoard::BitBoard()
 {
     //ctor
@@ -49,37 +47,37 @@ void BitBoard::setTabuleiro(string msgServ)
 
             case 'r':
                 {
-                    this->tabuleiro->BlackRooks = Tabuleiro::Set(this->tabuleiro->BlackRooks,63-i);
+                    this->tabuleiro.BlackRooks = tabuleiro.Set(this->tabuleiro.BlackRooks,63-i);
                     break;
                 }
             case 'b':
                 {
-                    this->tabuleiro->BlackBishops = Tabuleiro::Set(this->tabuleiro->BlackBishops,63-i);
+                    this->tabuleiro.BlackBishops = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
             case 'p':
                 {
-                    this->tabuleiro->BlackPawns = Tabuleiro::Set(this->tabuleiro->BlackPawns,63-i);
+                    this->tabuleiro.BlackPawns = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
             case 'R':
                 {
-                    this->tabuleiro->WhiteRooks = Tabuleiro::Set(this->tabuleiro->WhiteRooks,63-i);
+                    this->tabuleiro.WhiteRooks = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
             case 'B':
                 {
-                    this->tabuleiro->WhiteBishops = Tabuleiro::Set(this->tabuleiro->WhiteBishops,63-i);
+                    this->tabuleiro.WhiteBishops = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
             case 'P':
                 {
-                    this->tabuleiro->WhitePawns = Tabuleiro::Set(this->tabuleiro->WhitePawns,63-i);
+                    this->tabuleiro.WhitePawns = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
              case '.':
                 {
-                    this->tabuleiro->emptySpace = Tabuleiro::Set(this->tabuleiro->emptySpace,63-i);
+                    this->tabuleiro.emptySpace = tabuleiro.Set(this->tabuleiro.BlackBishops,63-i);
                     break;
                 }
 

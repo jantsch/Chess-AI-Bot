@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <iostream>
 #include <stdio.h>
+#include "Tabuleiro.h"
 
 using namespace std;
 
@@ -16,7 +17,7 @@ class BitBoard
     int black_infractions;
     int winner; // 1 ,0 ou -1
     bool fiftyMoves;
-    //Tabuleiro tabuleiro;
+    Tabuleiro tabuleiro;
 
     //Definir tipo da Matriz ou bitboard
 
