@@ -26,6 +26,7 @@ class BitBoard
         BitBoard();
         virtual ~BitBoard();
         void ConverteFormatoServBit(string msgServ);
+        void AvaliaFolhas(int level);
 
 
     private:

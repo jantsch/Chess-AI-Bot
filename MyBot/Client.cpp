@@ -77,24 +77,24 @@ void Cliente::rotinaPrincipal()
    cout << "Nome Enviado "<< endl;
    cout << "Inicie o Jogo... "<< endl;
 
-     BitBoard bitboard;
-     Minimax algMinimax;
+
+
 
       while(1)
     {
         if(recv(sock, receivedData,5000 , 0) != -1)
         {
-            cout << receivedData << endl; // receiver data Contém string
+            //cout << receivedData << endl; // receiver data Contém string
 
             // Passa tudo pra bitboard e gera Tabuleiro.
+             BitBoard bitboard;
              bitboard.ConverteFormatoServBit((string)receivedData);
 
              // Chama Algoritmo Algoritmo
-             COORD jogada = algMinimax.exe(bitboard);
-
-
+             Minimax algMinimax;
+             algMinimax.exe(bitboard);
             // Manda a jogada
-            enviaMovimento();
+             enviaMovimento(algMinimax.From,algMinimax.To);
 
         }
 
@@ -115,11 +115,37 @@ void Cliente::enviaNome(void)
 
 
 }
-void Cliente::enviaMovimento(void)
+void Cliente::enviaMovimento(COORD From,COORD To)
 {
      // movimento teste
-     char *myMove = "{\"from\": [6,7], \"to\": [5,7]}";
-     send(sock, myMove , (int)strlen(myMove), 0);
+     //Sleep(2000);
+     char *str1 = "{\"from\": [";
+     char *str2 = ",";
+     char *str4 = "], \"to\": [";
+     char *str5 = "]}";
+     char resx1[2];
+     char resy1[2];
+     char resx2[2];
+     char resy2[2];
+    sprintf(resx1,"%d",From.X);
+    sprintf(resy1,"%d",From.Y);
+    sprintf(resx2,"%d",To.X);
+    sprintf(resy2,"%d",To.Y);
+    char *str3 = (char *)malloc(1+strlen(str1)+strlen(resx1)+strlen(str2)+strlen(resy1)+strlen(str4)
+                                 +strlen(resx2)+strlen(str2)+strlen(resy2)+strlen(str5));
+     strcpy(str3,str1);
+     strcat(str3,resx1);
+     strcat(str3,str2);
+     strcat(str3,resy1);
+     strcat(str3,str4);
+     strcat(str3,resx2);
+     strcat(str3,str2);
+     strcat(str3,resy2);
+     strcat(str3,str5);
+     printf("%s",str3);
+     //char *myMove = "{\"from\": [1,7], \"to\": [3,7]}";
+
+     send(sock, str3 , (int)strlen(str3), 0);
 
 
                       /* FORMATO

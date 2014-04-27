@@ -20,7 +20,7 @@ public:
     // envia uma string de texto
     void enviaNome();
     // envia nova jogada
-    void enviaMovimento();
+    void enviaMovimento(COORD From,COORD To);
 
     void rotinaPrincipal();
 };

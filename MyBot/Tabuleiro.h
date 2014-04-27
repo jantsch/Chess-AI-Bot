@@ -19,7 +19,9 @@ class Tabuleiro
          int valAvalia;
          Tabuleiro* filhos;
          Tabuleiro* irmao;
-         Tabuleiro* ptAux;
+         Tabuleiro* ptUltimo;
+         int posTo;
+         int posFrom;
 
     public:
         Tabuleiro();
@@ -29,6 +31,9 @@ class Tabuleiro
         uint64_t Clear (uint64_t bitboard, int numSquare);
         bool Is_set(uint64_t bitboard,int numSquare);
         void GeraListaBitboardsPossiveisPeao();
+        void GeraListaBitboardsPossiveisTorre();
+        void AvaliaTabuleiro();
+
 
 
     protected:
@@ -39,7 +44,9 @@ class Tabuleiro
         uint64_t GetPawnMovMaskCome(int square);
         uint64_t GeraMovValidoPeaoCima(uint64_t maskMovCima,int square);
         uint64_t GeraMovValidoPeaoCome(uint64_t maskMovCome);
-        void VeQualPecaFoiComida(int i);
+        void VeQualPecaFoiComida(int i,Tabuleiro *ptAux);
+        uint64_t GetRooksMovMask(int square);
+
 };
 
 
