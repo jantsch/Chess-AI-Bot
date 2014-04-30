@@ -177,6 +177,106 @@ uint64_t Tabuleiro::GetRooksMovMask(int  square)
 
    return maskMov;
 }
+
+uint64_t Tabuleiro::GetBishopMovMask(int  square)
+{
+
+    uint64_t maskMov=0;
+    int bufEast = square+7;
+    int bufEast2 = square;
+
+    while(bufEast%8 +1  == bufEast2%8)
+    {
+        /*cout << bufEast <<endl;
+        cout << bufEast2 <<endl;
+        cout << bufEast%8 +1 <<endl;
+        cout << bufEast2%8 <<endl;
+    */
+        if(Is_set(WhitePieces,bufEast)) // peça minha
+        {//   cout << "Minha Peça" <<endl;
+
+            break;
+        }
+        if(Is_set(BlackPieces,bufEast)) // peça do Inimigo
+        {  // cout << "Peca Adver" <<endl;
+
+            maskMov = Set(maskMov,bufEast);
+            break;
+        }
+        if(Is_set(emptySpace,bufEast)) // peça do Inimigo
+        {   //cout << "Livre" <<endl;
+
+            maskMov = Set(maskMov,bufEast);
+        }
+        bufEast = bufEast+7;
+        bufEast2 = bufEast2 +7;
+    }
+    int bufLeft = square+9;
+    int bufLeft2 = square;
+    while(bufLeft%8 -1  == bufLeft2%8)
+    {
+        if(Is_set(WhitePieces,bufLeft)) // peça minha
+        {
+            break;
+        }
+        if(Is_set(BlackPieces,bufLeft)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufLeft);
+            break;
+        }
+        if(Is_set(emptySpace,bufLeft)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufLeft);
+        }
+        bufLeft = bufLeft+9;
+        bufLeft2 = bufLeft2 +9;
+    }
+
+    int bufDownLeft = square-9;
+    int bufDownLeft2 = square;
+    while(bufDownLeft%8 +1  == bufDownLeft2%8 && bufDownLeft2/8 != 0)
+    {
+        if(Is_set(WhitePieces,bufDownLeft)) // peça minha
+        {
+            break;
+        }
+        if(Is_set(BlackPieces,bufDownLeft)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufDownLeft);
+            break;
+        }
+        if(Is_set(emptySpace,bufDownLeft)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufDownLeft);
+        }
+        bufDownLeft = bufDownLeft-9;
+        bufDownLeft2 = bufDownLeft2 -9;
+    }
+
+    int bufDownRight = square-7;
+    int bufDownRight2 = square;
+    while(bufDownRight%8 -1  == bufDownRight2%8 && bufDownRight2/8 != 0 )
+    {
+        if(Is_set(WhitePieces,bufDownRight)) // peça minha
+        {
+            break;
+        }
+        if(Is_set(BlackPieces,bufDownRight)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufDownRight);
+            break;
+        }
+        if(Is_set(emptySpace,bufDownRight)) // peça do Inimigo
+        {
+            maskMov = Set(maskMov,bufDownRight);
+        }
+        bufDownRight = bufDownRight-7;
+        bufDownRight2 = bufDownRight2 -7;
+    }
+    //cout << maskMov <<endl;
+
+    return maskMov;
+}
 void Tabuleiro::GeraListaBitboardsPossiveisTorre()
 {
     //k = bit da torre ligado e i bit da mascara ligado
@@ -231,6 +331,60 @@ void Tabuleiro::GeraListaBitboardsPossiveisTorre()
                         }
                         }}}
 }}
+void Tabuleiro::GeraListaBitboardsPossiveisBispo()
+{
+    //k = bit da torre ligado e i bit da mascara ligado
+    uint64_t maskMov=0;
+    Tabuleiro *ptAux = NULL;
+
+    for(int k=0;k<64;k++)
+    {
+        if(Is_set(this->WhiteBishops,k))
+        {
+
+            maskMov = GetBishopMovMask(k);
+
+               for(int i=0;i<64;i++)
+               {
+                      if(Is_set(maskMov,i)==true)
+                       {
+                           ptAux = (Tabuleiro*) malloc(sizeof(Tabuleiro)); // cria um nodo;
+                           ptAux->BlackBishops = this->BlackBishops;
+                           ptAux->BlackPawns = this->BlackPawns;
+                           ptAux->BlackPieces = this->BlackPieces;
+                           ptAux->BlackRooks = this->BlackRooks;
+                           ptAux->WhitePawns = this->WhitePawns;
+                           ptAux->WhiteRooks =  this->WhiteRooks;
+                           ptAux->WhiteBishops = this->WhiteBishops;
+                           ptAux->WhiteBishops = Set(ptAux->WhiteBishops,i);
+                           ptAux->WhiteBishops = Clear(ptAux->WhiteBishops,k);
+                           ptAux->WhitePieces = this->WhitePieces;
+                           ptAux->WhitePieces = Set(ptAux->WhitePieces,i);
+                           ptAux->WhitePieces = Clear(ptAux->WhitePieces,k);
+                           ptAux->emptySpace  = this->emptySpace;
+                           ptAux->emptySpace = Set(ptAux->emptySpace,k);
+                           ptAux->emptySpace = Clear(ptAux->emptySpace,i);
+                           ptAux->allPieces = this->allPieces;
+                           ptAux->allPieces = Set(ptAux->allPieces,i);
+                           ptAux->allPieces = Clear(ptAux->allPieces,k);
+                           VeQualPecaFoiComida(i,ptAux); // ver qual peça está comento para tirar da bitboard black
+                           ptAux->posTo = i;
+                           ptAux->posFrom =k;
+                           ptAux->ptUltimo=NULL;
+                        //cout<<ptAux->WhiteBishops<<endl;
+                        if(ptUltimo==NULL)
+                        {
+                            this->filhos = ptAux;
+                            ptUltimo = ptAux;
+                        }
+                        else
+                        {
+                        ptUltimo ->irmao = ptAux;
+                        ptUltimo  = ptUltimo->irmao;
+                        }
+                        }}}
+}}
+
 
 uint64_t Tabuleiro::GetPawnMovMaskCome(int square)
 {

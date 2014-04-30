@@ -16,6 +16,9 @@ class Minimax
         void exe(BitBoard bitboard);
     protected:
     private:
+        void  Printar1Nivel(Tabuleiro tabuleiro);
+        void  Printar2Nivel(Tabuleiro tabuleiro);
+        void  Printar3Nivel(Tabuleiro tabuleiro);
         Tabuleiro* InverteTabuleiro(Tabuleiro *tabuleiro);
         void ExpandeMeuSegundoNivel(Tabuleiro tabuleiro);
         void ExpandeSegundoNivelInimigo(Tabuleiro tabuleiro);

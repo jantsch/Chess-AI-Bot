@@ -32,6 +32,7 @@ class Tabuleiro
         bool Is_set(uint64_t bitboard,int numSquare);
         void GeraListaBitboardsPossiveisPeao();
         void GeraListaBitboardsPossiveisTorre();
+        void GeraListaBitboardsPossiveisBispo();
         void AvaliaTabuleiro();
 
 
@@ -46,6 +47,8 @@ class Tabuleiro
         uint64_t GeraMovValidoPeaoCome(uint64_t maskMovCome);
         void VeQualPecaFoiComida(int i,Tabuleiro *ptAux);
         uint64_t GetRooksMovMask(int square);
+        uint64_t GetBishopMovMask(int  square);
+
 
 };
 
