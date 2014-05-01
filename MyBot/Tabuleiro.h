@@ -33,7 +33,8 @@ class Tabuleiro
         void GeraListaBitboardsPossiveisPeao();
         void GeraListaBitboardsPossiveisTorre();
         void GeraListaBitboardsPossiveisBispo();
-        void AvaliaTabuleiro();
+        void AvaliaTabuleiroBranco();
+        void InverteMovimento();
 
 
 

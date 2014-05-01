@@ -145,7 +145,8 @@ void Cliente::enviaMovimento(COORD From,COORD To)
      printf("%s",str3);
      //char *myMove = "{\"from\": [1,7], \"to\": [3,7]}";
 
-     send(sock, str3 , (int)strlen(str3), 0);
+    int numero= send(sock, str3 , (int)strlen(str3), 0);
+    cout<< numero<<endl;
 
 
                       /* FORMATO

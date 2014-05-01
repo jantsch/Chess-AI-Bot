@@ -106,7 +106,7 @@
 	<stdlib.h>
 	"BitBoard.h"
 
-1398627620 source:c:\users\rodrigo\desktop\mybot\bitboard.cpp
+1398970842 source:c:\users\rodrigo\desktop\mybot\bitboard.cpp
 	<windows.h>
 	<iostream>
 	<stdio.h>
@@ -119,10 +119,10 @@
 	<stdio.h>
 	"Tabuleiro.h"
 
-1398859209 c:\users\rodrigo\desktop\mybot\tabuleiro.h
+1398970822 c:\users\rodrigo\desktop\mybot\tabuleiro.h
 	<iostream>
 
-1398627620 source:c:\users\rodrigo\desktop\mybot\client.cpp
+1398964451 source:c:\users\rodrigo\desktop\mybot\client.cpp
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -136,7 +136,7 @@
 	<winsock2.h>
 	<windows.h>
 
-1398812250 c:\users\rodrigo\desktop\mybot\minimax.h
+1398971941 c:\users\rodrigo\desktop\mybot\minimax.h
 	<winsock2.h>
 	<windows.h>
 	<iostream>
@@ -147,11 +147,11 @@
 	<winsock2.h>
 	"Client.h"
 
-1398863339 source:c:\users\rodrigo\desktop\mybot\minimax.cpp
+1398971942 source:c:\users\rodrigo\desktop\mybot\minimax.cpp
 	"BitBoard.h"
 	"Minimax.h"
 
-1398861983 source:c:\users\rodrigo\desktop\mybot\tabuleiro.cpp
+1398971942 source:c:\users\rodrigo\desktop\mybot\tabuleiro.cpp
 	<iostream>
 	<cstdlib>
 	"Tabuleiro.h"

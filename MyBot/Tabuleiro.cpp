@@ -317,6 +317,8 @@ void Tabuleiro::GeraListaBitboardsPossiveisTorre()
                            ptAux->posTo = i;
                            ptAux->posFrom =k;
                            ptAux->ptUltimo=NULL;
+                           ptAux->irmao=NULL;
+
 
                         if(ptUltimo==NULL)
                         {
@@ -371,16 +373,20 @@ void Tabuleiro::GeraListaBitboardsPossiveisBispo()
                            ptAux->posTo = i;
                            ptAux->posFrom =k;
                            ptAux->ptUltimo=NULL;
+                            ptAux->irmao=NULL;
+
                         //cout<<ptAux->WhiteBishops<<endl;
                         if(ptUltimo==NULL)
                         {
                             this->filhos = ptAux;
                             ptUltimo = ptAux;
+
                         }
                         else
                         {
                         ptUltimo ->irmao = ptAux;
                         ptUltimo  = ptUltimo->irmao;
+
                         }
                         }}}
 }}
@@ -461,6 +467,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                            ptAux->allPieces = Clear(ptAux->allPieces,k);
                            ptAux->posTo = i;
                            ptAux->posFrom =k;
+                        ptAux->irmao=NULL;
                            ptAux->ptUltimo=NULL;
 
 
@@ -472,9 +479,8 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                         }
                         else
                         {
-                        ptUltimo ->irmao = ptAux;
-                        ptUltimo  = ptUltimo->irmao;
-
+                            ptUltimo ->irmao = ptAux;
+                            ptUltimo  = ptUltimo->irmao;
                         }
                         }
 
@@ -503,12 +509,14 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                            ptAux->ptUltimo=NULL;
                            ptAux->posTo = i; //váriave para saber para onde está indo;
                            ptAux->posFrom =k;
+                           ptAux->irmao=NULL;
                            VeQualPecaFoiComida(i,ptAux); // ver qual peça está comento para tirar da bitboard black
 
                                if(ptUltimo==NULL)
                                 {
                                     this->filhos = ptAux;
                                     ptUltimo = ptAux;
+
 
                                 }
                                 else
@@ -546,7 +554,7 @@ void Tabuleiro::VeQualPecaFoiComida(int i,Tabuleiro *ptAux)
     }
 }
 
-void Tabuleiro::AvaliaTabuleiro()
+void Tabuleiro::AvaliaTabuleiroBranco()
 {
     for(int i=0;i<64;i++)
        {
@@ -575,6 +583,62 @@ void Tabuleiro::AvaliaTabuleiro()
               valAvalia = valAvalia - PEAOVALOR;
            }
        }
+
+}
+void Tabuleiro::InverteMovimento()
+{
+    if(this->posFrom >=0 && this->posFrom <=7 )
+    {
+       this->posFrom = this->posFrom +56;
+    }else if(this->posFrom >=8 && this->posFrom <=15 )
+    {
+         this->posFrom = this->posFrom +40;
+    }else if(this->posFrom >=16 && this->posFrom <=23 )
+    {
+        this->posFrom = this->posFrom +24;
+    }else if(this->posFrom >=24 && this->posFrom <=31 )
+    {
+         this->posFrom = this->posFrom +8;
+    }else if(this->posFrom >=32 && this->posFrom <=39 )
+    {
+         this->posFrom = this->posFrom -8;
+    }else if(this->posFrom >=40 && this->posFrom <=47 )
+    {
+         this->posFrom = this->posFrom -24;
+    }else if(this->posFrom >=48 && this->posFrom <=55 )
+    {
+         this->posFrom = this->posFrom -40;
+    }else if(this->posFrom >=56 && this->posFrom <=63 )
+    {
+         this->posFrom = this->posFrom -56;
+    }
+
+    if(this->posTo >=0 && this->posTo <=7 )
+    {
+       this->posTo = this->posTo +56;
+    }else  if(this->posTo >=8 && this->posTo <=15 )
+    {
+         this->posTo = this->posTo +40;
+    }else if(this->posTo >=16 && this->posTo <=23 )
+    {
+        this->posTo = this->posTo +24;
+    }else  if(this->posTo >=24 && this->posTo <=31 )
+    {
+         this->posTo = this->posTo +8;
+    }else  if(this->posTo >=32 && this->posTo <=39 )
+    {
+         this->posTo = this->posTo -8;
+    }else  if(this->posTo >=40 && this->posTo <=47 )
+    {
+         this->posTo = this->posTo -24;
+    }else  if(this->posTo >=48 && this->posTo <=55 )
+    {
+         this->posTo = this->posTo -40;
+    }else  if(this->posTo >=56 && this->posTo <=63 )
+    {
+         this->posTo = this->posTo -56;
+    }
+
 
 }
 

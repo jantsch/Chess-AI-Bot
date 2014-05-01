@@ -5,6 +5,10 @@
 
 Minimax::Minimax()
 {
+    this->From.X = 0;
+    this->From.Y = 0;
+    this->To.X = 0;
+    this->To.Y = 0;
     //ctor
 }
 
@@ -16,6 +20,7 @@ Minimax::~Minimax()
 void Minimax::exe(BitBoard bitboard)
 {
     cout<< "Começando Minimax" <<endl;
+
     if(bitboard.who_moves == 1) //Eu SOu o BRanco
     {
      bitboard.tabuleiro.GeraListaBitboardsPossiveisPeao(); //ok
@@ -23,7 +28,7 @@ void Minimax::exe(BitBoard bitboard)
      bitboard.tabuleiro.GeraListaBitboardsPossiveisTorre(); // ok
 
      cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
-     Printar1Nivel(bitboard.tabuleiro); // Até Aqui Ok!
+     //Printar1Nivel(bitboard.tabuleiro); // Testando OKEI só para debugar
 
 
 
@@ -35,22 +40,26 @@ void Minimax::exe(BitBoard bitboard)
      }
       cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
 
-      Printar2Nivel(bitboard.tabuleiro);
-      //ExpandeMeuSegundoNivel(bitboard.tabuleiro); // Nao Conferido!
-      //Printar3Nivel(bitboard.tabuleiro);
+      //Printar2Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
+      ExpandeMeuSegundoNivel(bitboard.tabuleiro);
+      //Printar3Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
+      ExpandeSegundoNivelInimigo(bitboard.tabuleiro);
 
-      //ExpandeSegundoNivelInimigo(bitboard.tabuleiro); // Nao Conferido!
-
-
-
-     IdentificaCOORD(bitboard.tabuleiro.filhos,bitboard.tabuleiro); // Elaborar uma forma de avaliar Último Nível
+     IdentificaCOORD(bitboard.tabuleiro.filhos); // Elaborar uma forma de avaliar Último Nível
     }                                                               // PseudoFuncao de Avaliacao pronta!
     else //Eu sou o Preto
-    {
+    {   //Problemas para converter movimento de um para outro
+          Tabuleiro *MovInvGerados = InverteTabuleiro(&bitboard.tabuleiro);
+          DesinverteTabuleiro(MovInvGerados,&bitboard.tabuleiro);
+          cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
+          Printar1Nivel(bitboard.tabuleiro);
 
+          bitboard.tabuleiro.filhos->InverteMovimento();
+          IdentificaCOORD(bitboard.tabuleiro.filhos);
     }
 
 }
+
 Tabuleiro* Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
 {
         Tabuleiro Buffer;
@@ -91,7 +100,10 @@ void Minimax::DesinverteTabuleiro(Tabuleiro *tabuleiro,Tabuleiro *EncadearNele)
         Buffer->WhiteRooks = InverteUint(ptAux->BlackRooks);
         Buffer->WhitePieces = InverteUint(ptAux->BlackPieces);
         Buffer->emptySpace = InverteUint(ptAux->emptySpace);
-
+        Buffer->posFrom = ptAux->posFrom;
+        Buffer->posTo = ptAux->posTo;
+        Buffer->irmao= NULL;
+        Buffer->ptUltimo= NULL;
         ptAux= ptAux->irmao;
 
         if(EncadearNele->ptUltimo==NULL)
@@ -135,79 +147,17 @@ uint64_t Minimax::InverteUint(uint64_t inv)
     }
     return saida;
 }
-void Minimax:: Printar1Nivel(Tabuleiro tabuleiro)
-{
-    Tabuleiro *ptAux;
-    int counte = 0;
-    cout << "Nodos Primeiro Nivel" <<endl;
-     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-     {
-          counte++;
-          cout << ptAux->allPieces <<endl;
-     }
 
-     cout << "Encadeamento" <<endl;
-     cout << tabuleiro.ptUltimo->allPieces <<endl;
-     cout << counte <<endl;
-     cout << "Primeiro Nível OK!"<<endl;
-
-}
-void Minimax:: Printar2Nivel(Tabuleiro tabuleiro)
-{
-     Tabuleiro *ptAux;
-     Tabuleiro *ptAux2;
-     int counte = 0;
-     cout << "Nodos Segundo Nivel" <<endl;
-     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-     {
-         for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
-         {counte++;
-          cout << ptAux2->allPieces <<endl;
-         }
-     }
-     cout << "Encadeamento" <<endl;
-     cout << tabuleiro.ptUltimo->ptUltimo->allPieces <<endl;
-     cout << counte << endl;
-     cout << "Segundo Nível OK!"<<endl;
-
-}
-void Minimax:: Printar3Nivel(Tabuleiro tabuleiro)
-{
-     Tabuleiro *ptAux;
-     Tabuleiro *ptAux2;
-     Tabuleiro *ptAux3;
-     int counte = 0;
-     cout << "Nodos Terceiro Nivel" <<endl;
-     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-     {
-         for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
-             for(ptAux3 = ptAux2->filhos;ptAux3!=NULL; ptAux3 = ptAux3->irmao)
-            {
-                counte++;
-                //cout << ptAux3->allPieces <<endl;
-         }
-     }
-     cout << "Encadeamento" <<endl;
-     //cout << tabuleiro.ptUltimo->ptUltimo->allPieces <<endl;
-     cout << counte << endl;
-     //cout << "Segundo Nível OK!"<<endl;
-
-}
 void Minimax::ExpandeMeuSegundoNivel(Tabuleiro tabuleiro)
 {
     Tabuleiro *ptAux; //primeiro nível
     Tabuleiro *ptAux2; // segundo nivel
-    cout<< "Iniciando" <<endl;
     for(ptAux = tabuleiro.filhos; ptAux!=NULL;ptAux = ptAux->irmao)
-    {       cout<< "Iniciando2" <<endl;
-            cout<< ptAux->WhitePieces <<endl;
-            for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
-            {cout<< "Iniciando3" <<endl;
-             cout<< ptAux2->WhitePieces <<endl;
-            ptAux2->GeraListaBitboardsPossiveisPeao();
-            ptAux2->GeraListaBitboardsPossiveisBispo();
-            ptAux2->GeraListaBitboardsPossiveisTorre();
-            cout<< ptAux2->ptUltimo->WhitePieces <<endl;
+    {       for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
+            {
+                ptAux2->GeraListaBitboardsPossiveisPeao();
+                ptAux2->GeraListaBitboardsPossiveisBispo();
+                ptAux2->GeraListaBitboardsPossiveisTorre();
             }
     }
 
@@ -236,7 +186,7 @@ void Minimax::ExpandeSegundoNivelInimigo(Tabuleiro tabuleiro)
     cout<< "Gerei Movimentos Inimigos 2-Nivel" <<endl;
 
 }
-void Minimax::IdentificaCOORD(Tabuleiro *tabJogada,Tabuleiro tabuleiro)
+void Minimax::IdentificaCOORD(Tabuleiro *tabJogada)
 {
 
      this->To.X = tabJogada->posTo/8;
@@ -247,3 +197,58 @@ void Minimax::IdentificaCOORD(Tabuleiro *tabJogada,Tabuleiro tabuleiro)
 
 }
 
+void Minimax:: Printar1Nivel(Tabuleiro tabuleiro)
+{
+    Tabuleiro *ptAux;
+    int counte=0;
+
+    cout << "Nodos Primeiro Nivel" <<endl;
+     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+     {
+          counte++;
+          cout << ptAux->allPieces <<endl;
+
+     }
+     cout << counte <<endl;
+     cout << "Primeiro Nível OK!"<<endl;
+
+}
+void Minimax:: Printar2Nivel(Tabuleiro tabuleiro)
+{
+     Tabuleiro *ptAux;
+     Tabuleiro *ptAux2;
+     int counte = 0;
+     cout << "Nodos Segundo Nivel" <<endl;
+     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+     {
+         for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
+         {
+          counte++;
+          cout << ptAux2->allPieces <<endl;
+         }
+     }
+     cout << counte << endl;
+     cout << "Segundo Nível OK!"<<endl;
+
+}
+void Minimax:: Printar3Nivel(Tabuleiro tabuleiro)
+{
+     Tabuleiro *ptAux;
+     Tabuleiro *ptAux2;
+     Tabuleiro *ptAux3;
+     int counte = 0;
+     cout << "Nodos Terceiro Nivel" <<endl;
+     for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+     {
+         for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
+             for(ptAux3 = ptAux2->filhos;ptAux3!=NULL; ptAux3 = ptAux3->irmao)
+            {
+                counte++;
+                cout << ptAux3->allPieces <<endl;
+         }
+     }
+
+     cout << counte << endl;
+     cout << "Terceiro Nível OK!"<<endl;
+
+}

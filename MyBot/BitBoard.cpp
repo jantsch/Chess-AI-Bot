@@ -127,7 +127,7 @@ void BitBoard::AvaliaFolhas(int level)
 
     while(pt!=NULL)
     {
-        pt->AvaliaTabuleiro();
+        pt->AvaliaTabuleiroBranco();
         pt = pt->irmao;
     }
 }
