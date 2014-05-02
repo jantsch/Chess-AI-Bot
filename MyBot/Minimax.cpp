@@ -19,7 +19,7 @@ Minimax::~Minimax()
 
 void Minimax::exe(BitBoard bitboard)
 {
-    cout<< "Começando Minimax" <<endl;
+    cout<< "Montando Arvore" <<endl;
 
     if(bitboard.who_moves == 1) //Eu SOu o BRanco
     {
@@ -27,42 +27,40 @@ void Minimax::exe(BitBoard bitboard)
          bitboard.tabuleiro.GeraListaBitboardsPossiveisBispo(); //ok
          bitboard.tabuleiro.GeraListaBitboardsPossiveisTorre(); // ok
 
-        //cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
+         cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
          //Printar1Nivel(bitboard.tabuleiro); // Testando OKEI só para debugar
 
          Tabuleiro *ptAux;
          for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
          {
-                 Tabuleiro *MovInvGerados = InverteTabuleiro(ptAux);
-                 DesinverteTabuleiro(MovInvGerados,ptAux);
+                 InverteTabuleiro(ptAux);
+
          }
-        //cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+          cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
 
           //Printar2Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
           ExpandeMeuSegundoNivel(bitboard.tabuleiro);
           //Printar3Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
           ExpandeSegundoNivelInimigo(bitboard.tabuleiro);
-          Printar4Nivel(bitboard.tabuleiro);
+          //Printar4Nivel(bitboard.tabuleiro);
 
-          Tabuleiro *Jogada = bitboard.AvaliaArvoreBranca(bitboard.tabuleiro);
+          Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
 
           IdentificaCOORD(Jogada);
     }
     else //Eu sou o Preto
     {
-          Tabuleiro *MovInvGerados = InverteTabuleiro(&bitboard.tabuleiro);
-          DesinverteTabuleiro(MovInvGerados,&bitboard.tabuleiro);
-          //cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
+          InverteTabuleiro(&bitboard.tabuleiro);
+
+          cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
           //Printar1Nivel(bitboard.tabuleiro);
 
           Tabuleiro *ptAux;
           for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
             {
-                 ptAux->GeraListaBitboardsPossiveisPeao();
-                 ptAux->GeraListaBitboardsPossiveisBispo();
-                 ptAux->GeraListaBitboardsPossiveisTorre();
+                 InverteTabuleiro(ptAux);
             }
-          //cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+          cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
           //Printar2Nivel(bitboard.tabuleiro);
 
           ExpandeMeuSegundoNivelPreto(bitboard.tabuleiro);
@@ -71,74 +69,36 @@ void Minimax::exe(BitBoard bitboard)
           ExpandeSegundoNivelInimigoPreto(bitboard.tabuleiro);
 
 
-          Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
+          Tabuleiro *Jogada = bitboard.AvaliaArvoreBranca(bitboard.tabuleiro);
           Jogada->InverteMovimento();
 
           IdentificaCOORD(Jogada);
+
     }
 
 }
 
-Tabuleiro* Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
+void Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
 {
-        Tabuleiro Buffer;
-        Buffer.allPieces = InverteUint(tabuleiro->allPieces);
-        Buffer.BlackPieces = InverteUint(tabuleiro->WhitePieces);
-        Buffer.BlackPawns = InverteUint(tabuleiro->WhitePawns);
-        Buffer.BlackBishops = InverteUint(tabuleiro->WhiteBishops);
-        Buffer.BlackRooks = InverteUint(tabuleiro->WhiteRooks);
-        Buffer.WhiteBishops = InverteUint(tabuleiro->BlackBishops);
-        Buffer.WhitePawns = InverteUint(tabuleiro->BlackPawns);
-        Buffer.WhiteRooks = InverteUint(tabuleiro->BlackRooks);
-        Buffer.WhitePieces = InverteUint(tabuleiro->BlackPieces);
-        Buffer.emptySpace = InverteUint(tabuleiro->emptySpace);
-        Buffer.ptUltimo = NULL;
-        Buffer.GeraListaBitboardsPossiveisPeao();
-        Buffer.GeraListaBitboardsPossiveisBispo();
-        Buffer.GeraListaBitboardsPossiveisTorre();
-        return Buffer.filhos;
+
+        tabuleiro->allPieces = InverteUint(tabuleiro->allPieces);
+        tabuleiro->BlackPieces = InverteUint(tabuleiro->WhitePieces);
+        tabuleiro->BlackPawns = InverteUint(tabuleiro->WhitePawns);
+        tabuleiro->BlackBishops = InverteUint(tabuleiro->WhiteBishops);
+        tabuleiro->BlackRooks = InverteUint(tabuleiro->WhiteRooks);
+        tabuleiro->WhiteBishops = InverteUint(tabuleiro->BlackBishops);
+        tabuleiro->WhitePawns = InverteUint(tabuleiro->BlackPawns);
+        tabuleiro->WhiteRooks = InverteUint(tabuleiro->BlackRooks);
+        tabuleiro->WhitePieces = InverteUint(tabuleiro->BlackPieces);
+        tabuleiro->emptySpace = InverteUint(tabuleiro->emptySpace);
+        tabuleiro->GeraListaBitboardsPossiveisPeao();
+        tabuleiro->GeraListaBitboardsPossiveisBispo();
+        tabuleiro->GeraListaBitboardsPossiveisTorre();
+        //return tabuleiro-filhos;
 
 
 }
-void Minimax::DesinverteTabuleiro(Tabuleiro *tabuleiro,Tabuleiro *EncadearNele)
-{
-        Tabuleiro *Buffer=NULL;
-        Tabuleiro *ptAux = tabuleiro; // Percorrer uma lista encadeada gerada das jogadas invertidas
-        //Tabuleiro *ptAux2 = NULL; // Percorrer lista dos imrãos
 
-        while(ptAux!=NULL)
-        {
-        Buffer = (Tabuleiro*) malloc(sizeof(Tabuleiro));
-        Buffer->allPieces = InverteUint(ptAux->allPieces);
-        Buffer->BlackPieces = InverteUint(ptAux->WhitePieces);
-        Buffer->BlackPawns = InverteUint(ptAux->WhitePawns);
-        Buffer->BlackBishops = InverteUint(ptAux->WhiteBishops);
-        Buffer->BlackRooks = InverteUint(ptAux->WhiteRooks);
-        Buffer->WhiteBishops = InverteUint(ptAux->BlackBishops);
-        Buffer->WhitePawns = InverteUint(ptAux->BlackPawns);
-        Buffer->WhiteRooks = InverteUint(ptAux->BlackRooks);
-        Buffer->WhitePieces = InverteUint(ptAux->BlackPieces);
-        Buffer->emptySpace = InverteUint(ptAux->emptySpace);
-        Buffer->posFrom = ptAux->posFrom;
-        Buffer->posTo = ptAux->posTo;
-        Buffer->irmao= NULL;
-        Buffer->ptUltimo= NULL;
-        ptAux= ptAux->irmao;
-
-        if(EncadearNele->ptUltimo==NULL)
-        {
-
-            EncadearNele->filhos = Buffer;
-            EncadearNele->ptUltimo = Buffer;
-        }
-        else
-        {
-
-            EncadearNele->ptUltimo->irmao = Buffer;
-            EncadearNele->ptUltimo = EncadearNele->ptUltimo->irmao;
-        }
-        }
-}
 uint64_t Minimax::InverteUint(uint64_t inv)
 {
     uint64_t saida=0;
@@ -173,8 +133,8 @@ void Minimax::ExpandeMeuSegundoNivelPreto(Tabuleiro tabuleiro)
             for(ptAux = tabuleiro.filhos; ptAux!=NULL;ptAux = ptAux->irmao)
             {       for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
                     {
-                        Tabuleiro *MovInvGerados = InverteTabuleiro(ptAux2);
-                        DesinverteTabuleiro(MovInvGerados,ptAux2);
+                         InverteTabuleiro(ptAux2);
+
                     }
           }
            cout<< "Gerei Meus Movimentos 2-Nivel" <<endl;
@@ -192,9 +152,7 @@ void Minimax::ExpandeSegundoNivelInimigoPreto(Tabuleiro tabuleiro)
                     {
                         for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
                         {
-                           ptAux3->GeraListaBitboardsPossiveisPeao();
-                           ptAux3->GeraListaBitboardsPossiveisBispo();
-                           ptAux3->GeraListaBitboardsPossiveisTorre();
+                          InverteTabuleiro(ptAux3);
                         }
                     }
             }
@@ -208,9 +166,7 @@ void Minimax::ExpandeMeuSegundoNivel(Tabuleiro tabuleiro)
     for(ptAux = tabuleiro.filhos; ptAux!=NULL;ptAux = ptAux->irmao)
     {       for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
             {
-                ptAux2->GeraListaBitboardsPossiveisPeao();
-                ptAux2->GeraListaBitboardsPossiveisBispo();
-                ptAux2->GeraListaBitboardsPossiveisTorre();
+                InverteTabuleiro(ptAux2);
             }
     }
 
@@ -231,8 +187,8 @@ void Minimax::ExpandeSegundoNivelInimigo(Tabuleiro tabuleiro)
             {
                 for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
                 {
-                    Tabuleiro *MovInvGerados = InverteTabuleiro(ptAux3);
-                    DesinverteTabuleiro(MovInvGerados,ptAux3); // Pau!
+                     InverteTabuleiro(ptAux3);
+
                 }
             }
     }

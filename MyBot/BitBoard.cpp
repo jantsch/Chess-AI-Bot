@@ -116,46 +116,54 @@ void BitBoard::setTabuleiro(string msgServ)
 
 Tabuleiro* BitBoard::AvaliaArvoreBranca(Tabuleiro tabuleiro)
 {
-
     Tabuleiro *ptAux;
     Tabuleiro *ptAux2;
     Tabuleiro *ptAux3;
     Tabuleiro *ptAux4;
-
-         int maxi2=0;
-         for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-            {       int mini2=0;
-                    for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
-                    {   int maxi = 0;
-                        for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
-                        {
-                             int mini = 0;
-                             for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4 = ptAux4->irmao)
-                             {
-                                ptAux4->AvaliaTabuleiroBranco();
-                                if(mini== 0 || ptAux4->valAvalia < mini)
-                                mini = ptAux4->valAvalia;
-                              }
-                            ptAux3->valAvalia = mini;
-                            if(maxi==0|| ptAux3->valAvalia > maxi)
-                            maxi = ptAux3->valAvalia;
-                        }
-                        ptAux2->valAvalia = maxi;
-                        if(mini2== 0 || ptAux2->valAvalia < mini2)
-                        mini2 = ptAux2->valAvalia;
-                    }
-                    ptAux->valAvalia= mini2;
-                    if(ptAux->valAvalia > maxi2)
-                    maxi2 = ptAux->valAvalia;
+    cout<<"Començando Minimax"<<endl;
+    //ptAux4 = tabuleiro.filhos->filhos->filhos->filhos;
+    int max1=-200;
+    for(ptAux = tabuleiro.filhos; ptAux!=NULL; ptAux=ptAux->irmao)
+    {   int min1 = -200;
+        for(ptAux2 = ptAux->filhos; ptAux2!=NULL; ptAux2=ptAux2->irmao)
+        {   int max2= -200;
+            for(ptAux3 = ptAux2->filhos; ptAux3!=NULL; ptAux3=ptAux3->irmao)
+            {   int min2=-200;
+                for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4=ptAux4->irmao)
+                {
+                    ptAux4->AvaliaTabuleiroBranco();
+                    if(min2=-200 ||ptAux4->valAvalia < min2 )
+                    min2 = ptAux4->valAvalia;
+                }
+                ptAux3->valAvalia = min2;
+                if(ptAux3->valAvalia >max2)
+                max2 = ptAux3->valAvalia;
             }
-        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-        {
-            if(ptAux->valAvalia == maxi2)
-            {   return ptAux;
-                break;
-            }
-
+            ptAux2->valAvalia = max2;
+            if(min1=-200 ||ptAux2->valAvalia < min1)
+            min1=  ptAux2->valAvalia;
         }
+        ptAux->valAvalia = min1;
+        if(ptAux->valAvalia >max1)
+        max1 = ptAux->valAvalia;
+
+    }
+
+    cout<<"Achando Jogada"<<endl;
+    cout<<max1<<endl;
+
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+        {    cout<<"Entrei"<<endl;
+
+            if(ptAux->valAvalia ==max1)
+            {     cout<<"Terminando"<<endl;
+                  cout<<ptAux->posFrom<<endl;
+                  cout<<ptAux->posTo<<endl;
+                  return ptAux;
+            }
+        }
+
+        return tabuleiro.filhos;
 }
 Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
 {
@@ -164,42 +172,52 @@ Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
     Tabuleiro *ptAux2;
     Tabuleiro *ptAux3;
     Tabuleiro *ptAux4;
-
-         int maxi2=0;
-         for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-            {       int mini2=0;
-                    for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
-                    {   int maxi = 0;
-                        for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
-                        {
-                             int mini = 0;
-                             for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4 = ptAux4->irmao)
-                             {
-                                ptAux4->AvaliaTabuleiroPreto();
-                                if(mini== 0 || ptAux4->valAvalia < mini)
-                                mini = ptAux4->valAvalia;
-                              }
-                            ptAux3->valAvalia = mini;
-                            if(maxi==0|| ptAux3->valAvalia > maxi)
-                            maxi = ptAux3->valAvalia;
-                        }
-                        ptAux2->valAvalia = maxi;
-                        if(mini2== 0 || ptAux2->valAvalia < mini2)
-                        mini2 = ptAux2->valAvalia;
-                    }
-                    ptAux->valAvalia= mini2;
-                    if(ptAux->valAvalia > maxi2)
-                    maxi2 = ptAux->valAvalia;
+    cout<<"Començando Minimax"<<endl;
+    //ptAux4 = tabuleiro.filhos->filhos->filhos->filhos;
+    int max1=-200;
+    for(ptAux = tabuleiro.filhos; ptAux!=NULL; ptAux=ptAux->irmao)
+    {   int min1 = -200;
+        for(ptAux2 = ptAux->filhos; ptAux2!=NULL; ptAux2=ptAux2->irmao)
+        {   int max2= -200;
+            for(ptAux3 = ptAux2->filhos; ptAux3!=NULL; ptAux3=ptAux3->irmao)
+            {   int min2=-200;
+                for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4=ptAux4->irmao)
+                {
+                    ptAux4->AvaliaTabuleiroPreto();
+                    if(min2=-200 ||ptAux4->valAvalia < min2 )
+                    min2 = ptAux4->valAvalia;
+                }
+                ptAux3->valAvalia = min2;
+                if(ptAux3->valAvalia >max2)
+                max2 = ptAux3->valAvalia;
             }
-        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-        {
-            if(ptAux->valAvalia == maxi2)
-            {   return ptAux;
-                break;
-            }
-
+            ptAux2->valAvalia = max2;
+            if(min1=-200 ||ptAux2->valAvalia < min1)
+            min1=  ptAux2->valAvalia;
         }
+        ptAux->valAvalia = min1;
+        if(ptAux->valAvalia >max1)
+        max1 = ptAux->valAvalia;
+
+    }
+
+    cout<<"Achando Jogada"<<endl;
+    cout<<max1<<endl;
+
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+        {    cout<<"Entrei"<<endl;
+
+            if(ptAux->valAvalia ==max1)
+            {     cout<<"Terminando"<<endl;
+                  cout<<ptAux->posFrom<<endl;
+                  cout<<ptAux->posTo<<endl;
+                  return ptAux;
+            }
+        }
+
+        return tabuleiro.filhos;
 }
+
 void BitBoard::setDraw(string msgServ)
 {
     int location = msgServ.find("draw");

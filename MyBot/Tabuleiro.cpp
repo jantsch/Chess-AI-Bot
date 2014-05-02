@@ -614,6 +614,7 @@ void Tabuleiro::AvaliaTabuleiroPreto()
               valAvalia = valAvalia - PEAOVALOR;
            }
        }
+       this->valAvalia = valAvalia;
 }
 void Tabuleiro::InverteMovimento()
 {

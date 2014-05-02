@@ -154,7 +154,7 @@ void Cliente::enviaMovimento(COORD From,COORD To)
      strcat(str3,str5);
      printf("%s",str3);
 
-    int numero= send(sock, str3 , (int)strlen(str3), 0);
+   send(sock, str3 , (int)strlen(str3), 0);
 
 }
 

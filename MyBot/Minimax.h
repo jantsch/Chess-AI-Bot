@@ -16,13 +16,11 @@ class Minimax
         void exe(BitBoard bitboard);
     protected:
     private:
-
-        Tabuleiro* InverteTabuleiro(Tabuleiro *tabuleiro);
+        void InverteTabuleiro(Tabuleiro *tabuleiro);
         void ExpandeMeuSegundoNivel(Tabuleiro tabuleiro);
         void ExpandeMeuSegundoNivelPreto(Tabuleiro tabuleiro);
         void ExpandeSegundoNivelInimigo(Tabuleiro tabuleiro);
         void ExpandeSegundoNivelInimigoPreto(Tabuleiro tabuleiro);
-        void DesinverteTabuleiro(Tabuleiro *tabuleiro,Tabuleiro *EncadearNele);
         uint64_t InverteUint(uint64_t inv);
         void IdentificaCOORD(Tabuleiro *tabJogada);
 
