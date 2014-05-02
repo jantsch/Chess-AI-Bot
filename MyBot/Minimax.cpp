@@ -33,19 +33,17 @@ void Minimax::exe(BitBoard bitboard)
          Tabuleiro *ptAux;
          for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
          {
-                 InverteTabuleiro(ptAux);
-
+          InverteTabuleiro(ptAux);
          }
-          cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+         cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
 
           //Printar2Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
           ExpandeMeuSegundoNivel(bitboard.tabuleiro);
           //Printar3Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
           ExpandeSegundoNivelInimigo(bitboard.tabuleiro);
-          //Printar4Nivel(bitboard.tabuleiro);
+          Printar4Nivel(bitboard.tabuleiro);
 
-          Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
-
+          Tabuleiro *Jogada = bitboard.AvaliaArvoreBranca(bitboard.tabuleiro);
           IdentificaCOORD(Jogada);
     }
     else //Eu sou o Preto
@@ -69,8 +67,9 @@ void Minimax::exe(BitBoard bitboard)
           ExpandeSegundoNivelInimigoPreto(bitboard.tabuleiro);
 
 
-          Tabuleiro *Jogada = bitboard.AvaliaArvoreBranca(bitboard.tabuleiro);
+          Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
           Jogada->InverteMovimento();
+          Printar4Nivel(bitboard.tabuleiro);
 
           IdentificaCOORD(Jogada);
 
@@ -80,25 +79,23 @@ void Minimax::exe(BitBoard bitboard)
 
 void Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
 {
-
-        tabuleiro->allPieces = InverteUint(tabuleiro->allPieces);
-        tabuleiro->BlackPieces = InverteUint(tabuleiro->WhitePieces);
-        tabuleiro->BlackPawns = InverteUint(tabuleiro->WhitePawns);
-        tabuleiro->BlackBishops = InverteUint(tabuleiro->WhiteBishops);
-        tabuleiro->BlackRooks = InverteUint(tabuleiro->WhiteRooks);
-        tabuleiro->WhiteBishops = InverteUint(tabuleiro->BlackBishops);
-        tabuleiro->WhitePawns = InverteUint(tabuleiro->BlackPawns);
-        tabuleiro->WhiteRooks = InverteUint(tabuleiro->BlackRooks);
-        tabuleiro->WhitePieces = InverteUint(tabuleiro->BlackPieces);
-        tabuleiro->emptySpace = InverteUint(tabuleiro->emptySpace);
-        tabuleiro->GeraListaBitboardsPossiveisPeao();
-        tabuleiro->GeraListaBitboardsPossiveisBispo();
-        tabuleiro->GeraListaBitboardsPossiveisTorre();
-        //return tabuleiro-filhos;
-
-
+                Tabuleiro Buffer;
+                Buffer.allPieces = InverteUint(tabuleiro->allPieces);
+                Buffer.BlackPieces = InverteUint(tabuleiro->WhitePieces);
+                Buffer.BlackPawns = InverteUint(tabuleiro->WhitePawns);
+                Buffer.BlackBishops = InverteUint(tabuleiro->WhiteBishops);
+                Buffer.BlackRooks = InverteUint(tabuleiro->WhiteRooks);
+                Buffer.WhiteBishops = InverteUint(tabuleiro->BlackBishops);
+                Buffer.WhitePawns = InverteUint(tabuleiro->BlackPawns);
+                Buffer.WhiteRooks = InverteUint(tabuleiro->BlackRooks);
+                Buffer.WhitePieces = InverteUint(tabuleiro->BlackPieces);
+                Buffer.emptySpace = InverteUint(tabuleiro->emptySpace);
+                Buffer.GeraListaBitboardsPossiveisPeao();
+                Buffer.GeraListaBitboardsPossiveisBispo();
+                Buffer.GeraListaBitboardsPossiveisTorre();
+                tabuleiro->filhos = Buffer.filhos;
 }
-
+// tá aqui o erro; não tá retornando certo.
 uint64_t Minimax::InverteUint(uint64_t inv)
 {
     uint64_t saida=0;
@@ -124,6 +121,7 @@ uint64_t Minimax::InverteUint(uint64_t inv)
            saida =chamador.Set(saida,i-56);
         }
     }
+
     return saida;
 }
 void Minimax::ExpandeMeuSegundoNivelPreto(Tabuleiro tabuleiro)
@@ -163,6 +161,7 @@ void Minimax::ExpandeMeuSegundoNivel(Tabuleiro tabuleiro)
 {
     Tabuleiro *ptAux; //primeiro nível
     Tabuleiro *ptAux2; // segundo nivel
+
     for(ptAux = tabuleiro.filhos; ptAux!=NULL;ptAux = ptAux->irmao)
     {       for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
             {
@@ -188,7 +187,6 @@ void Minimax::ExpandeSegundoNivelInimigo(Tabuleiro tabuleiro)
                 for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
                 {
                      InverteTabuleiro(ptAux3);
-
                 }
             }
     }
@@ -215,7 +213,6 @@ void Minimax:: Printar1Nivel(Tabuleiro tabuleiro)
      for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
      {
           counte++;
-          cout << ptAux->allPieces <<endl;
 
      }
      cout << counte <<endl;
@@ -233,7 +230,6 @@ void Minimax:: Printar2Nivel(Tabuleiro tabuleiro)
          for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
          {
           counte++;
-          cout << ptAux2->allPieces <<endl;
          }
      }
      cout << counte << endl;
@@ -250,10 +246,12 @@ void Minimax:: Printar3Nivel(Tabuleiro tabuleiro)
      for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
      {
          for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
+         {
              for(ptAux3 = ptAux2->filhos;ptAux3!=NULL; ptAux3 = ptAux3->irmao)
             {
                 counte++;
-                cout << ptAux3->allPieces <<endl;
+
+            }
          }
      }
 

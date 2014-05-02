@@ -320,6 +320,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisTorre()
                            ptAux->irmao=NULL;
 
 
+
                         if(ptUltimo==NULL)
                         {
                             this->filhos = ptAux;
@@ -373,9 +374,8 @@ void Tabuleiro::GeraListaBitboardsPossiveisBispo()
                            ptAux->posTo = i;
                            ptAux->posFrom =k;
                            ptAux->ptUltimo=NULL;
-                            ptAux->irmao=NULL;
+                           ptAux->irmao=NULL;
 
-                        //cout<<ptAux->WhiteBishops<<endl;
                         if(ptUltimo==NULL)
                         {
                             this->filhos = ptAux;
@@ -469,6 +469,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                            ptAux->posFrom =k;
                         ptAux->irmao=NULL;
                            ptAux->ptUltimo=NULL;
+
 
 
                         if(ptUltimo==NULL)
