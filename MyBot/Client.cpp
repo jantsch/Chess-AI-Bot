@@ -57,12 +57,26 @@ void Cliente::conectar( void )
     serv_end.sin_family = AF_INET;
     serv_end.sin_addr.s_addr = inet_addr(ip);
     serv_end.sin_port = htons(50200);
+    int porta=0;
+
     if(connect(sock, reinterpret_cast<SOCKADDR *>(&serv_end), sizeof(serv_end)) == -1)
     {
-        cout << "Nao foi possivel conectar ao servidor, tente de novo." << endl;
-        return;
+        cout << "Nao foi possivel conectar a porta 50200" << endl;
+        serv_end.sin_port = htons(50100);
+        porta =1;
+        if(connect(sock, reinterpret_cast<SOCKADDR *>(&serv_end), sizeof(serv_end)) == -1)
+        {
+            cout << "Nao foi possivel conectar a 50100, tente de novo." << endl;
+            return;
+        }
+        //return;
     }
-    cout << "Conexao estabelecida." << endl;
+
+    cout << "Conexao estabelecida com porta:" ;
+    if(porta==1)
+    cout << 50100 << endl;
+    else
+    cout << 50200 << endl;
 
 
     rotinaPrincipal();
@@ -72,10 +86,10 @@ void Cliente::conectar( void )
 void Cliente::rotinaPrincipal()
 {
    char receivedData[5000];
-   cout << "Enviando Nome... "<< endl;
+   //cout << "Enviando Nome... "<< endl;
    enviaNome();
-   cout << "Nome Enviado "<< endl;
-   cout << "Inicie o Jogo... "<< endl;
+   //cout << "Nome Enviado "<< endl;
+   //cout << "Inicie o Jogo... "<< endl;
 
 
 
@@ -99,10 +113,6 @@ void Cliente::rotinaPrincipal()
         }
 
     }
-
-
-
-
 }
 
 void Cliente::enviaNome(void)
@@ -110,7 +120,7 @@ void Cliente::enviaNome(void)
     char *msg = "{\"name\" : \"MagyverBot\"}";
     if(send(sock, msg , (int)strlen(msg), 0)== SOCKET_ERROR)
     {
-           cout << "Problema ao Enviar Nome "<< endl;
+          // cout << "Problema ao Enviar Nome "<< endl;
     }
 
 
@@ -143,18 +153,8 @@ void Cliente::enviaMovimento(COORD From,COORD To)
      strcat(str3,resy2);
      strcat(str3,str5);
      printf("%s",str3);
-     //char *myMove = "{\"from\": [1,7], \"to\": [3,7]}";
 
     int numero= send(sock, str3 , (int)strlen(str3), 0);
-    cout<< numero<<endl;
-
-
-                      /* FORMATO
-                    {
-                        "from": COORDENADA,
-                        "to": COORDENADA
-                    }*/
-
 
 }
 

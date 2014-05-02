@@ -26,7 +26,6 @@ class Tabuleiro
     public:
         Tabuleiro();
         virtual ~Tabuleiro();
-
         uint64_t Set (uint64_t bitboard, int numSquare);
         uint64_t Clear (uint64_t bitboard, int numSquare);
         bool Is_set(uint64_t bitboard,int numSquare);
@@ -34,10 +33,8 @@ class Tabuleiro
         void GeraListaBitboardsPossiveisTorre();
         void GeraListaBitboardsPossiveisBispo();
         void AvaliaTabuleiroBranco();
+        void AvaliaTabuleiroPreto();
         void InverteMovimento();
-
-
-
     protected:
     private:
         uint64_t SetMasksField(int numSquare);

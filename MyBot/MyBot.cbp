@@ -24,10 +24,17 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-Os" />
+					<Add option="-O3" />
 					<Add option="-O2" />
+					<Add option="-O1" />
+					<Add option="-O" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="libws2_32.a" />
 				</Linker>
 			</Target>
 		</Build>

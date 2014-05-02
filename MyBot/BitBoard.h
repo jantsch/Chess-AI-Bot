@@ -26,7 +26,8 @@ class BitBoard
         BitBoard();
         virtual ~BitBoard();
         void ConverteFormatoServBit(string msgServ);
-        void AvaliaFolhas(int level);
+        Tabuleiro* AvaliaArvoreBranca(Tabuleiro tabuleiro);
+        Tabuleiro* AvaliaArvorePreta(Tabuleiro tabuleiro);
 
 
     private:

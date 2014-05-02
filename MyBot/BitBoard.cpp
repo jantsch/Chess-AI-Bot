@@ -114,22 +114,91 @@ void BitBoard::setTabuleiro(string msgServ)
 
 }
 
-void BitBoard::AvaliaFolhas(int level)
+Tabuleiro* BitBoard::AvaliaArvoreBranca(Tabuleiro tabuleiro)
 {
 
-    Tabuleiro *pt= &this->tabuleiro;
-    int contadorNivel =0;
-    while(contadorNivel != level)
-    {
-        pt = pt->filhos;
-        contadorNivel++;
-    }
+    Tabuleiro *ptAux;
+    Tabuleiro *ptAux2;
+    Tabuleiro *ptAux3;
+    Tabuleiro *ptAux4;
 
-    while(pt!=NULL)
-    {
-        pt->AvaliaTabuleiroBranco();
-        pt = pt->irmao;
-    }
+         int maxi2=0;
+         for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+            {       int mini2=0;
+                    for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
+                    {   int maxi = 0;
+                        for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
+                        {
+                             int mini = 0;
+                             for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4 = ptAux4->irmao)
+                             {
+                                ptAux4->AvaliaTabuleiroBranco();
+                                if(mini== 0 || ptAux4->valAvalia < mini)
+                                mini = ptAux4->valAvalia;
+                              }
+                            ptAux3->valAvalia = mini;
+                            if(maxi==0|| ptAux3->valAvalia > maxi)
+                            maxi = ptAux3->valAvalia;
+                        }
+                        ptAux2->valAvalia = maxi;
+                        if(mini2== 0 || ptAux2->valAvalia < mini2)
+                        mini2 = ptAux2->valAvalia;
+                    }
+                    ptAux->valAvalia= mini2;
+                    if(ptAux->valAvalia > maxi2)
+                    maxi2 = ptAux->valAvalia;
+            }
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+        {
+            if(ptAux->valAvalia == maxi2)
+            {   return ptAux;
+                break;
+            }
+
+        }
+}
+Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
+{
+
+    Tabuleiro *ptAux;
+    Tabuleiro *ptAux2;
+    Tabuleiro *ptAux3;
+    Tabuleiro *ptAux4;
+
+         int maxi2=0;
+         for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+            {       int mini2=0;
+                    for(ptAux2 = ptAux->filhos; ptAux2!=NULL;ptAux2 = ptAux2->irmao)
+                    {   int maxi = 0;
+                        for(ptAux3 = ptAux2->filhos;ptAux3!=NULL;ptAux3 = ptAux3->irmao)
+                        {
+                             int mini = 0;
+                             for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4 = ptAux4->irmao)
+                             {
+                                ptAux4->AvaliaTabuleiroPreto();
+                                if(mini== 0 || ptAux4->valAvalia < mini)
+                                mini = ptAux4->valAvalia;
+                              }
+                            ptAux3->valAvalia = mini;
+                            if(maxi==0|| ptAux3->valAvalia > maxi)
+                            maxi = ptAux3->valAvalia;
+                        }
+                        ptAux2->valAvalia = maxi;
+                        if(mini2== 0 || ptAux2->valAvalia < mini2)
+                        mini2 = ptAux2->valAvalia;
+                    }
+                    ptAux->valAvalia= mini2;
+                    if(ptAux->valAvalia > maxi2)
+                    maxi2 = ptAux->valAvalia;
+            }
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+        {
+            if(ptAux->valAvalia == maxi2)
+            {   return ptAux;
+                break;
+            }
+
+        }
 }
 void BitBoard::setDraw(string msgServ)
 {

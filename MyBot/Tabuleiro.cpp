@@ -583,7 +583,37 @@ void Tabuleiro::AvaliaTabuleiroBranco()
               valAvalia = valAvalia - PEAOVALOR;
            }
        }
+}
 
+void Tabuleiro::AvaliaTabuleiroPreto()
+{
+    for(int i=0;i<64;i++)
+       {
+           if(Is_set(this->BlackPawns,i))
+           {
+               valAvalia = valAvalia + PEAOVALOR;
+           }
+           if(Is_set(this->BlackRooks,i))
+           {
+              valAvalia = valAvalia + TORREVALOR;
+           }
+           if(Is_set(this->BlackBishops,i))
+           {
+              valAvalia = valAvalia + BISPOVALOR;
+           }
+           if(Is_set(this->WhiteBishops,i))
+           {
+              valAvalia = valAvalia - BISPOVALOR;
+           }
+           if(Is_set(this->WhiteRooks,i))
+           {
+              valAvalia = valAvalia - TORREVALOR;
+           }
+           if(Is_set(this->WhitePawns,i))
+           {
+              valAvalia = valAvalia - PEAOVALOR;
+           }
+       }
 }
 void Tabuleiro::InverteMovimento()
 {
