@@ -206,3 +206,53 @@
 	<cstdlib>
 	"Tabuleiro.h"
 
+1399155387 source:c:\users\rodrigo\desktop\ia-master\mybot\bitboard.cpp
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	<stdlib.h>
+	"BitBoard.h"
+
+1399155306 c:\users\rodrigo\desktop\ia-master\mybot\bitboard.h
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Tabuleiro.h"
+
+1399084597 c:\users\rodrigo\desktop\ia-master\mybot\tabuleiro.h
+	<iostream>
+
+1399052404 source:c:\users\rodrigo\desktop\ia-master\mybot\client.cpp
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+	"Client.h"
+	"BitBoard.h"
+	"Minimax.h"
+
+1399052404 c:\users\rodrigo\desktop\ia-master\mybot\client.h
+	<iostream>
+	<winsock2.h>
+	<windows.h>
+
+1399052404 c:\users\rodrigo\desktop\ia-master\mybot\minimax.h
+	<winsock2.h>
+	<windows.h>
+	<iostream>
+	<stdio.h>
+
+1399052404 source:c:\users\rodrigo\desktop\ia-master\mybot\main.cpp
+	<iostream>
+	<winsock2.h>
+	"Client.h"
+
+1399155315 source:c:\users\rodrigo\desktop\ia-master\mybot\tabuleiro.cpp
+	<iostream>
+	<cstdlib>
+	"Tabuleiro.h"
+
+1399155578 source:c:\users\rodrigo\desktop\ia-master\mybot\minimax.cpp
+	"BitBoard.h"
+	"Minimax.h"
+

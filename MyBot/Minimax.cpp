@@ -20,38 +20,65 @@ Minimax::~Minimax()
 void Minimax::exe(BitBoard bitboard)
 {
     cout<< "Montando Arvore" <<endl;
-
-    if(bitboard.who_moves == 1) //Eu SOu o BRanco
+if(bitboard.winner==0)
+ {
+    if(bitboard.who_moves == 1 ) //Eu SOu o BRanco
     {
-         bitboard.tabuleiro.GeraListaBitboardsPossiveisPeao(); //ok
-         bitboard.tabuleiro.GeraListaBitboardsPossiveisBispo(); //ok
-         bitboard.tabuleiro.GeraListaBitboardsPossiveisTorre(); // ok
-
-         cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
-         //Printar1Nivel(bitboard.tabuleiro); // Testando OKEI só para debugar
-
-         Tabuleiro *ptAux;
-         for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+        if(bitboard.white_infractions<=3)
          {
-          InverteTabuleiro(ptAux);
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisPeao(); //ok
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisBispo(); //ok
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisTorre(); // ok
+
+             cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
+
+
+             Tabuleiro *ptAux;
+             for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+             {
+              InverteTabuleiro(ptAux);
+             }
+             cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+
+              //Printar2Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
+              ExpandeMeuSegundoNivel(bitboard.tabuleiro);
+              //Printar3Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
+              ExpandeSegundoNivelInimigo(bitboard.tabuleiro);
+              //Printar4Nivel(bitboard.tabuleiro);
+
+              Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
+              //Printar1Nivel(bitboard.tabuleiro); // Testando OKEI só para debugar
+              IdentificaCOORD(Jogada);
          }
-         cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+         else
+         {
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisPeao(); //ok
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisBispo(); //ok
+             bitboard.tabuleiro.GeraListaBitboardsPossiveisTorre(); // ok
 
-          //Printar2Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
-          ExpandeMeuSegundoNivel(bitboard.tabuleiro);
-          //Printar3Nivel(bitboard.tabuleiro);// Testando OKEI só para debugar
-          ExpandeSegundoNivelInimigo(bitboard.tabuleiro);
-          Printar4Nivel(bitboard.tabuleiro);
+             cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
 
-          Tabuleiro *Jogada = bitboard.AvaliaArvoreBranca(bitboard.tabuleiro);
-          IdentificaCOORD(Jogada);
+
+             Tabuleiro *ptAux;
+             for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+             {
+              InverteTabuleiro(ptAux);
+             }
+             cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+
+             Tabuleiro *Jogada = bitboard.AvaliaArvorePretaSegNivel(bitboard.tabuleiro);
+              //Printar1Nivel(bitboard.tabuleiro); // Testando OKEI só para debugar
+             IdentificaCOORD(Jogada);
+
+         }
     }
     else //Eu sou o Preto
     {
-          InverteTabuleiro(&bitboard.tabuleiro);
+          if(bitboard.black_infractions<=3)
+          {
+              InverteTabuleiro(&bitboard.tabuleiro);
 
           cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
-          //Printar1Nivel(bitboard.tabuleiro);
 
           Tabuleiro *ptAux;
           for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
@@ -69,12 +96,36 @@ void Minimax::exe(BitBoard bitboard)
 
           Tabuleiro *Jogada = bitboard.AvaliaArvorePreta(bitboard.tabuleiro);
           Jogada->InverteMovimento();
-          Printar4Nivel(bitboard.tabuleiro);
+          //Printar2Nivel(bitboard.tabuleiro);
+
+
+          IdentificaCOORD(Jogada);
+          }
+          else
+          {
+            InverteTabuleiro(&bitboard.tabuleiro);
+
+            cout<< "Gerei Meus Movimentos 1-Nivel" <<endl;
+
+            Tabuleiro *ptAux;
+            for(ptAux = bitboard.tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
+            {
+                 InverteTabuleiro(ptAux);
+            }
+            cout<< "Gerei Movimentos Inimigos 1-Nivel" <<endl;
+            //Printar2Nivel(bitboard.tabuleiro);
+
+          Tabuleiro *Jogada = bitboard.AvaliaArvorePretaSegNivel(bitboard.tabuleiro);
+          Jogada->InverteMovimento();
+
 
           IdentificaCOORD(Jogada);
 
-    }
 
+          }
+
+    }
+ }
 }
 
 void Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
@@ -90,12 +141,14 @@ void Minimax::InverteTabuleiro(Tabuleiro *tabuleiro) //OK
                 Buffer.WhiteRooks = InverteUint(tabuleiro->BlackRooks);
                 Buffer.WhitePieces = InverteUint(tabuleiro->BlackPieces);
                 Buffer.emptySpace = InverteUint(tabuleiro->emptySpace);
-                Buffer.GeraListaBitboardsPossiveisPeao();
+
                 Buffer.GeraListaBitboardsPossiveisBispo();
+                Buffer.GeraListaBitboardsPossiveisPeao();
                 Buffer.GeraListaBitboardsPossiveisTorre();
+
                 tabuleiro->filhos = Buffer.filhos;
 }
-// tá aqui o erro; não tá retornando certo.
+
 uint64_t Minimax::InverteUint(uint64_t inv)
 {
     uint64_t saida=0;
@@ -213,7 +266,6 @@ void Minimax:: Printar1Nivel(Tabuleiro tabuleiro)
      for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
      {
           counte++;
-
      }
      cout << counte <<endl;
      cout << "Primeiro Nível OK!"<<endl;
@@ -230,6 +282,7 @@ void Minimax:: Printar2Nivel(Tabuleiro tabuleiro)
          for(ptAux2 = ptAux->filhos;ptAux2!=NULL; ptAux2 = ptAux2->irmao)
          {
           counte++;
+
          }
      }
      cout << counte << endl;

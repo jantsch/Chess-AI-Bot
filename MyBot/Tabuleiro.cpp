@@ -3,9 +3,9 @@
 #include <iostream>
 #include <cstdlib>
 #include "Tabuleiro.h"
-#define PEAOVALOR 4;
-#define TORREVALOR 8;
-#define BISPOVALOR 8;
+#define PEAOVALOR 100;
+#define TORREVALOR 500;
+#define BISPOVALOR 500;
 
 using std::cout;
 using std::endl;
@@ -185,13 +185,9 @@ uint64_t Tabuleiro::GetBishopMovMask(int  square)
     int bufEast = square+7;
     int bufEast2 = square;
 
-    while(bufEast%8 +1  == bufEast2%8)
+    while(bufEast%8 +1  == bufEast2%8 && bufEast2 < 56 )
     {
-        /*cout << bufEast <<endl;
-        cout << bufEast2 <<endl;
-        cout << bufEast%8 +1 <<endl;
-        cout << bufEast2%8 <<endl;
-    */
+
         if(Is_set(WhitePieces,bufEast)) // peça minha
         {//   cout << "Minha Peça" <<endl;
 
@@ -213,7 +209,7 @@ uint64_t Tabuleiro::GetBishopMovMask(int  square)
     }
     int bufLeft = square+9;
     int bufLeft2 = square;
-    while(bufLeft%8 -1  == bufLeft2%8)
+    while(bufLeft%8 -1  == bufLeft2%8 &&bufLeft2 < 56)
     {
         if(Is_set(WhitePieces,bufLeft)) // peça minha
         {
@@ -318,6 +314,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisTorre()
                            ptAux->posFrom =k;
                            ptAux->ptUltimo=NULL;
                            ptAux->irmao=NULL;
+                           ptAux->valAvalia=0;
 
 
 
@@ -375,6 +372,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisBispo()
                            ptAux->posFrom =k;
                            ptAux->ptUltimo=NULL;
                            ptAux->irmao=NULL;
+                            ptAux->valAvalia=0;
 
                         if(ptUltimo==NULL)
                         {
@@ -467,7 +465,8 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                            ptAux->allPieces = Clear(ptAux->allPieces,k);
                            ptAux->posTo = i;
                            ptAux->posFrom =k;
-                        ptAux->irmao=NULL;
+                           ptAux->valAvalia=0;
+                           ptAux->irmao=NULL;
                            ptAux->ptUltimo=NULL;
 
 
@@ -511,6 +510,7 @@ void Tabuleiro::GeraListaBitboardsPossiveisPeao()
                            ptAux->posTo = i; //váriave para saber para onde está indo;
                            ptAux->posFrom =k;
                            ptAux->irmao=NULL;
+                           ptAux->valAvalia=0;
                            VeQualPecaFoiComida(i,ptAux); // ver qual peça está comento para tirar da bitboard black
 
                                if(ptUltimo==NULL)
@@ -555,68 +555,73 @@ void Tabuleiro::VeQualPecaFoiComida(int i,Tabuleiro *ptAux)
     }
 }
 
-void Tabuleiro::AvaliaTabuleiroBranco()
-{
-    for(int i=0;i<64;i++)
-       {
-           if(Is_set(this->WhitePawns,i))
-           {
-               valAvalia = valAvalia + PEAOVALOR;
-           }
-           if(Is_set(this->WhiteRooks,i))
-           {
-              valAvalia = valAvalia + TORREVALOR;
-           }
-           if(Is_set(this->WhiteBishops,i))
-           {
-              valAvalia = valAvalia + BISPOVALOR;
-           }
-           if(Is_set(this->BlackBishops,i))
-           {
-              valAvalia = valAvalia - BISPOVALOR;
-           }
-           if(Is_set(this->BlackRooks,i))
-           {
-              valAvalia = valAvalia - TORREVALOR;
-           }
-           if(Is_set(this->BlackPawns,i))
-           {
-              valAvalia = valAvalia - PEAOVALOR;
-           }
-       }
-}
+
 
 void Tabuleiro::AvaliaTabuleiroPreto()
-{
+{   int buffer = 0;
+    int n;
+
     for(int i=0;i<64;i++)
        {
            if(Is_set(this->BlackPawns,i))
            {
-               valAvalia = valAvalia + PEAOVALOR;
+               //Isso garante que vai tentar mover o peão até o final antes de fazer outra jogada
+               if(i>=0 && i<8)
+                 n = 1000;
+               else
+              {
+                  if(i>=8 && i<=15)
+                  n = 500;
+                  if(i>=16 && i<=23)
+                  n = 200;
+                  else
+                  n = 1;
+               }
+
+               this->valAvalia = this->valAvalia + n*PEAOVALOR;
+
            }
            if(Is_set(this->BlackRooks,i))
            {
-              valAvalia = valAvalia + TORREVALOR;
+
+              this->valAvalia = this->valAvalia + TORREVALOR;
            }
            if(Is_set(this->BlackBishops,i))
            {
-              valAvalia = valAvalia + BISPOVALOR;
+              this->valAvalia = this->valAvalia + BISPOVALOR;
            }
            if(Is_set(this->WhiteBishops,i))
            {
-              valAvalia = valAvalia - BISPOVALOR;
+              buffer =buffer + BISPOVALOR;
            }
            if(Is_set(this->WhiteRooks,i))
            {
-              valAvalia = valAvalia - TORREVALOR;
+              buffer = buffer + TORREVALOR;
            }
            if(Is_set(this->WhitePawns,i))
            {
-              valAvalia = valAvalia - PEAOVALOR;
+                if(i>=56 && i<64)
+                 n = 1000;
+               else
+               {
+                  if(i>=48 && i<=55)
+                  n = 250;
+                  else if(i>=40 && i<=47)
+                  n = 100;
+                  else
+                  n = 1;
+               }
+
+              buffer = buffer + n*PEAOVALOR;
            }
        }
-       this->valAvalia = valAvalia;
+       this->valAvalia = this->valAvalia - buffer;
+
+
+
+
 }
+
 void Tabuleiro::InverteMovimento()
 {
     if(this->posFrom >=0 && this->posFrom <=7 )
