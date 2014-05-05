@@ -114,61 +114,10 @@ void BitBoard::setTabuleiro(string msgServ)
 
 }
 
-Tabuleiro* BitBoard::AvaliaArvoreBranca(Tabuleiro tabuleiro)
-{
-    Tabuleiro *ptAux;
-    Tabuleiro *ptAux2;
-    Tabuleiro *ptAux3;
-    Tabuleiro *ptAux4;
-    cout<<"Començando Minimax"<<endl;
-
-    int max1=-200;
-    for(ptAux = tabuleiro.filhos; ptAux!=NULL; ptAux=ptAux->irmao)
-    {   int min1 = -200;
-        for(ptAux2 = ptAux->filhos; ptAux2!=NULL; ptAux2=ptAux2->irmao)
-        {   int max2= -200;
-            for(ptAux3 = ptAux2->filhos; ptAux3!=NULL; ptAux3=ptAux3->irmao)
-            {   int min2=-200;
-                for(ptAux4 = ptAux3->filhos;ptAux4!=NULL;ptAux4=ptAux4->irmao)
-                {
-                    ptAux4->AvaliaTabuleiroBranco();
-                    if(min2=-200 ||ptAux4->valAvalia < min2 )
-                    min2 = ptAux4->valAvalia;
-                }
-                ptAux3->valAvalia = min2;
-                if(ptAux3->valAvalia >max2)
-                max2 = ptAux3->valAvalia;
-            }
-            ptAux2->valAvalia = max2;
-            if(min1=-200 ||ptAux2->valAvalia < min1)
-            min1=  ptAux2->valAvalia;
-        }
-        ptAux->valAvalia = min1;
-        if(ptAux->valAvalia >max1)
-        max1 = ptAux->valAvalia;
-
-    }
-
-     cout<<"Achando Jogada com max:";
-     cout<<max1<<endl;
-
-        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)
-        {   if(ptAux->valAvalia ==max1)
-            {     cout<<"Terminando"<<endl;
-                  cout<<"De:";
-                  cout<<ptAux->posFrom<<endl;
-                  cout<<"Para:";
-                  cout<<ptAux->posTo<<endl;
-                  return ptAux;
-            }
-        }
-        // só vem pra cá se  deu algum problema
-        return tabuleiro.filhos;
-}
 Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
 {
 
-    Tabuleiro *ptAux;
+      Tabuleiro *ptAux;
     Tabuleiro *ptAux2;
     Tabuleiro *ptAux3;
     Tabuleiro *ptAux4;
@@ -204,7 +153,21 @@ Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
     cout<<"Achando Jogada com max:";
     cout<<max1<<endl;
 
-        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao)        {
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao){
+
+            if(ptAux->valAvalia ==max1)
+            {
+                for(int i=56;i<=63;i++)
+                {
+                      if(ptAux->Is_set(ptAux->WhitePawns,i))
+                      {
+                         return ptAux;
+                      }
+                }
+            }
+        }
+
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao){
 
             if(ptAux->valAvalia ==max1)
             {
@@ -217,7 +180,61 @@ Tabuleiro* BitBoard::AvaliaArvorePreta(Tabuleiro tabuleiro)
             }
         }
 
-        return tabuleiro.filhos;
+}
+Tabuleiro* BitBoard::AvaliaArvorePretaSegNivel(Tabuleiro tabuleiro)
+{
+
+    Tabuleiro *ptAux;
+    Tabuleiro *ptAux2;
+
+    cout<<"Començando Minimax"<<endl;
+    //ptAux4 = tabuleiro.filhos->filhos->filhos->filhos;
+    int max1=-200;
+    for(ptAux = tabuleiro.filhos; ptAux!=NULL; ptAux=ptAux->irmao)
+    {   int min1 = -200;
+        for(ptAux2 = ptAux->filhos; ptAux2!=NULL; ptAux2=ptAux2->irmao)
+        {
+                    ptAux2->AvaliaTabuleiroPreto();
+                    if(min1=-200 ||ptAux2->valAvalia < min1 )
+                    min1 = ptAux2->valAvalia;
+
+        }
+        ptAux->valAvalia = min1;
+        if(ptAux->valAvalia >max1)
+        max1 = ptAux->valAvalia;
+
+    }
+
+    cout<<"Achando Jogada com max:";
+    cout<<max1<<endl;
+
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao){
+
+            if(ptAux->valAvalia ==max1)
+            {
+                for(int i=56;i<=63;i++)
+                {
+                      if(ptAux->Is_set(ptAux->WhitePawns,i))
+                      {
+                         return ptAux;
+                      }
+                }
+            }
+        }
+
+        for(ptAux = tabuleiro.filhos;ptAux!=NULL; ptAux = ptAux->irmao){
+
+            if(ptAux->valAvalia ==max1)
+            {
+                  cout<<"Terminando"<<endl;
+                  cout<<"De:";
+                  cout<<ptAux->posFrom<<endl;
+                  cout<<"Para:";
+                  cout<<ptAux->posTo<<endl;
+                  return ptAux;
+            }
+        }
+
 }
 
 void BitBoard::setDraw(string msgServ)
